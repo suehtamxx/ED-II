@@ -1,72 +1,77 @@
-struct Alunos
+//Structs
+typedef struct aluno
 {
     char matricula[7];
     char nome[50];
     char cod_curso[5];
-};
+}Aluno;
 
-struct Disciplina
+typedef struct disciplina
 {
     char cod_dis[3];
     char nome[50];
-    int periodo = 0;
+    int periodo;
     int carga_hr;
-};
+}Disciplina;
 
-struct Notas
+typedef struct notas
 {
     char cod_dis[3];
     char semestre[6];
     float nota_final;
-};
+}Notas;
 
-struct Curso
+typedef struct curso
 {
     char cod_curso[5];
     char nome[30];
-    int qtd_periodos = 0;
-};
+    int qtd_periodos;
+}Curso;
 
-struct Matricula
+typedef struct matricula
 {
     char cod_dis[3];
-};
+}Matricula;
 
-typedef struct arv_dis
+//Árvores
+typedef struct arvore_disciplina
 {
-    struct Disciplina info;
-    struct arv_dis *esq, *dir;
-};
+    Disciplina info;
+    struct arvore_disciplina *esq, *dir;
+}arv_dis;
 
-typedef struct arv_curso
+typedef struct arvore_curso
 {
-    struct Curso info;
-    struct arv_curso *esq, *dir;
-    struct arv_dis dis;
-};
+    Curso info;
+    arv_dis *dis;
+    struct arvore_curso *esq, *dir;
+}arv_curso;
 
-typedef struct arv_notas
+typedef struct arvore_notas
 {
-    struct Notas info;
-    struct arv_notas *esq, *dir;
-};
+    Notas info;
+    struct arvore_notas *esq, *dir;
+}arv_notas;
 
-typedef struct arv_matri
+typedef struct arvore_matricula
 {
-    struct Matricula info;
-    struct arv_matri *esq, *dir;
-};
+    Matricula info;
+    struct arvore_matricula *esq, *dir;
+}arv_matri;
 
+//Lista
 typedef struct lista_alunos
 {
+   Aluno info;
+   arv_notas *notas;
+   arv_matri *matricula;
    struct lista_alunos *prox;
-   struct Alunos info;
-   struct arv_notas notas;
-   struct arv_matri matricula;
 };
 
 void cadastrar_aluno(arv_curso curso, lista_alunos *l_aluno);
-void cadastrar_curso(arv_curso curso);
+arv_curso *cadastrar_curso(); // criar um nó  na arvore curso
 void cadastrar_disciplina(arv_curso curso, arv_dis disciplina);
 void cadastrar_matricula(arv_matri matricula, lista_alunos *l_aluno);
 void cadastrar_notas(arv_notas notas, arv_matri matricula, lista_alunos *l_aluno);
+
+int inserir_arv_curso(arv_curso **curso, arv_curso *no);
