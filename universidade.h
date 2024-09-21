@@ -66,12 +66,14 @@ typedef struct lista_alunos
    arv_notas *notas;
    arv_matri *matricula;
    struct lista_alunos *prox;
-};
+}l_aluno;
 
-void cadastrar_aluno(arv_curso curso, lista_alunos *l_aluno);
+l_aluno *cadastrar_aluno(arv_curso *curso);
 arv_curso *cadastrar_curso(); // criar um nó  na arvore curso
-void cadastrar_disciplina(arv_curso curso, arv_dis disciplina);
-void cadastrar_matricula(arv_matri matricula, lista_alunos *l_aluno);
-void cadastrar_notas(arv_notas notas, arv_matri matricula, lista_alunos *l_aluno);
+arv_dis *cadastrar_disciplina(arv_curso *curso);
+void cadastrar_matricula(arv_matri matricula, struct lista_alunos *l_aluno);
+void cadastrar_notas(arv_notas notas, arv_matri matricula, struct lista_alunos *l_aluno);
 
 int inserir_arv_curso(arv_curso **curso, arv_curso *no);
+int inserir_arv_dis(arv_dis **disciplina, arv_dis *no);
+int inserir_aluno(l_aluno **aluno, l_aluno *no);
