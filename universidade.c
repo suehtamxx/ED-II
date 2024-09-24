@@ -3,6 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+arv_curso *criar_arv_curso()
+{
+    return NULL;
+}
+arv_dis *criar_arv_dis()
+{
+    return NULL;
+}
+l_aluno * criar_list_aluno()
+{
+    return NULL;
+}
+
 arv_curso *cadastrar_curso()
 {
     printf("\nCadastrando um curso: ");
@@ -26,27 +39,6 @@ arv_curso *cadastrar_curso()
 
     return novo_curso;
 }
-
-int inserir_arv_curso(arv_curso **curso, arv_curso *no)
-{
-    int inseriu = 1;
-
-    if (*curso == NULL) *curso == no;
-
-    else 
-        if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) < 0) 
-            inseriu = inserir_arv_curso(&((*curso)->esq), no);
-
-        else 
-            if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) > 0)
-                inseriu = inserir_arv_curso(&((*curso)->dir), no);
-            
-            else
-                inseriu = 0;
-    
-    return inseriu;
-}
-
 arv_dis *cadastrar_disciplina(arv_curso *curso)
 {
     int i = 0;
@@ -77,24 +69,6 @@ arv_dis *cadastrar_disciplina(arv_curso *curso)
 
     return nova_dis;
 }
-
-int inserir_arv_dis(arv_dis **disciplina, arv_dis *no)
-{
-    int inseriu = 1;
-
-    if(*disciplina == NULL) *disciplina = no;
-
-    else 
-        if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
-            inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
-        else
-            if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
-                inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
-            else inseriu = 0;
-        
-        return inseriu;
-}
-
 l_aluno *cadastrar_aluno(arv_curso *curso)
 {
     l_aluno *novo_aluno = (l_aluno*)malloc(sizeof(l_aluno));
@@ -115,6 +89,41 @@ l_aluno *cadastrar_aluno(arv_curso *curso)
     }
 }
 
+int inserir_arv_curso(arv_curso **curso, arv_curso *no)
+{
+    int inseriu = 1;
+
+    if (*curso == NULL) *curso == no;
+
+    else 
+        if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) < 0) 
+            inseriu = inserir_arv_curso(&((*curso)->esq), no);
+
+        else 
+            if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) > 0)
+                inseriu = inserir_arv_curso(&((*curso)->dir), no);
+            
+            else
+                inseriu = 0;
+    
+    return inseriu;
+}
+int inserir_arv_dis(arv_dis **disciplina, arv_dis *no)
+{
+    int inseriu = 1;
+
+    if(*disciplina == NULL) *disciplina = no;
+
+    else 
+        if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
+            inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
+        else
+            if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
+                inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
+            else inseriu = 0;
+        
+        return inseriu;
+}
 int inserir_aluno(l_aluno **aluno, l_aluno *no)
 {
     int inseriu = 1;
@@ -125,3 +134,4 @@ int inserir_aluno(l_aluno **aluno, l_aluno *no)
         if(strcmp((*aluno)->info.nome, no->info.nome) < 0)
             inseriu = inserir_aluno(&((*aluno)->));
 }
+
