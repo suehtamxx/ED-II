@@ -5,11 +5,15 @@
 
 int main ()
 {
-    int op = 0;
+    int op = 0, erro;
     
     arv_curso *noc;
     arv_dis *nod;
     l_aluno *noa;
+
+    noc = NULL;
+    nod = NULL;
+    noa = NULL;
 
     arv_curso *arv_curso;
     arv_dis *arv_dis;
@@ -31,21 +35,30 @@ int main ()
         switch (op)
         {
         case 1:
-            int *erro = 0;
-        
-            *erro = inserir_arv_curso(&arv_curso, noc);
+            noc = cadastrar_curso();
+            erro = inserir_arv_curso(&arv_curso, noc);
+
+            if (erro == 1) printf("\nCadastro do curso realizado com sucesso!");
+            else printf("\nErro ao cadastrar curso!");
+
             break;
         case 2:
-            int *erro1 = 0;
+            nod = cadastrar_disciplina(arv_curso);
+            erro = inserir_arv_dis(&arv_dis, nod);
 
-            *erro1 = inserir_arv_dis(&arv_dis, nod);
+            if (erro == 1) printf("\nCadastro da disciplina realizado com sucesso!");
+            else printf("\nErro ao cadastrar disciplina!");
             break;
         case 3:
-            int *erro2 = 0;
+            noa = cadastrar_aluno(arv_curso);
+            erro = inserir_aluno(&l_aluno, noa);
 
-            *erro2 = inserir_aluno(&l_aluno, noa);
+            if (erro == 1) printf("\nCadastro de aluno realizado com sucesso!");
+            else printf("\nErro ao cadastrar aluno!");
             break;
+        
         default:
+            printf("\nOpcao invalida!");
             break;
         }
     } while (op != 0);
