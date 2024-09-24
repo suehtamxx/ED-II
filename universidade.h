@@ -1,10 +1,10 @@
 //Structs
-typedef struct aluno
+struct aluno
 {
     char matricula[7];
     char nome[50];
     char cod_curso[5];
-}Aluno;
+};
 
 typedef struct disciplina
 {
