@@ -56,12 +56,11 @@ arv_dis *cadastrar_disciplina(arv_curso *curso)
 
         printf("\nInforme o nome da disciplina: ");
         scanf(" %[^\n]", nova_dis->info.nome);
-
        
-        printf("\nInforme o periodo da disciplina no curso: ");
+        printf("Informe o periodo da disciplina no curso:\n");
         while (i < 1 || i > qtd)
-            scanf(" %d ", &i);
-        
+            scanf(" %d", &i);
+
         nova_dis->info.periodo = i;
         
         printf("Informe a carga horaria da disciplina:\n");
