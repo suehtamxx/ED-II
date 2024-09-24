@@ -1,10 +1,13 @@
+#ifndef UNIVERSIDADE_H
+#define UNIVERSIDADE_H
+
 //Structs
-struct aluno
+typedef struct aluno
 {
     char matricula[7];
     char nome[50];
     char cod_curso[5];
-};
+}Aluno;
 
 typedef struct disciplina
 {
@@ -81,3 +84,5 @@ l_aluno * criar_list_aluno();
 int inserir_arv_curso(arv_curso **curso, arv_curso *no);
 int inserir_arv_dis(arv_dis **disciplina, arv_dis *no);
 int inserir_aluno(l_aluno **aluno, l_aluno *no);
+
+#endif
