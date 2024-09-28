@@ -5,6 +5,7 @@
 
 // 0 é erro, 1 é que deu certo
 
+//Criar árvores e lista
 arv_curso *criar_arv_curso()
 {
     return NULL;
@@ -13,86 +14,149 @@ arv_dis *criar_arv_dis()
 {
     return NULL;
 }
-l_aluno * criar_list_aluno()
+arv_matri *criar_arv_matricula()
+{
+    return NULL;
+}
+arv_notas *criar_arv_notas()
+{
+    return NULL;
+}
+l_aluno * criar_lista_aluno()
 {
     return NULL;
 }
 
-arv_curso *cadastrar_curso()
+//Criar os nós das árvores e lista
+arv_curso *alocar_no_curso()
 {
-    printf("\nCadastrando um curso: ");
-    arv_curso *novo_curso = (arv_curso*)malloc(sizeof(arv_curso));
-    if (novo_curso != NULL)
+    arv_curso *novo_no = (arv_curso*)malloc(sizeof(arv_curso));
+    if (novo_no != NULL)
     {
-        novo_curso->dir = NULL;
-        novo_curso->esq = NULL;
-        novo_curso->dis = NULL;
+        novo_no->esq = NULL;
+        novo_no->dir = NULL;
+        novo_no->dis = NULL;
 
-        printf("Informe o nome do curso: ");
-        scanf(" %[^\n]", novo_curso->info.nome);
-
-        printf("Informe a quantidade de periodos do curso: ");
-        scanf(" %d", &novo_curso->info.qtd_periodos);
-
-        printf("Informe o codigo do curso: ");
-        scanf(" %[^\n]", novo_curso->info.cod_curso);
+        strcpy(novo_no->info.cod_curso, "");  
+        strcpy(novo_no->info.nome, "");      
+        novo_no->info.qtd_periodos = 0;  
     }
-    else printf("Erro ao alocar!\n");
-
-    return novo_curso;
+    
+    return novo_no;
 }
-arv_dis *cadastrar_disciplina(arv_curso *curso)
+arv_dis *alocar_no_dis()
+{
+    arv_dis *novo_no = (arv_dis*)malloc(sizeof(arv_dis));
+    if (novo_no != NULL)
+    {
+        novo_no->esq = NULL;
+        novo_no->dir = NULL;
+
+        strcpy(novo_no->info.cod_dis, "");  
+        strcpy(novo_no->info.nome, "");      
+        novo_no->info.periodo = 0;  
+        novo_no->info.carga_hr = 0;  
+    }
+    
+    return novo_no;
+}
+arv_matri *alocar_no_matricula()
+{
+    arv_matri *novo_no = (arv_matri*)malloc(sizeof(arv_matri));
+    if (novo_no != NULL)
+    {
+        novo_no->esq = NULL;
+        novo_no->dir = NULL;
+
+        strcpy(novo_no->info.cod_dis, "");   
+    }
+    
+    return novo_no;
+}
+arv_notas *alocar_no_notas()
+{
+    arv_notas *novo_no = (arv_notas*)malloc(sizeof(arv_notas));
+    if (novo_no != NULL)
+    {
+        novo_no->esq = NULL;
+        novo_no->dir = NULL;
+
+        strcpy(novo_no->info.cod_dis, "");  
+        strcpy(novo_no->info.semestre, "");      
+        novo_no->info.nota_final = 0;  
+    }
+    
+    return novo_no;
+}
+l_aluno *alocar_no_aluno()
+{
+    l_aluno *novo_no = (l_aluno*)malloc(sizeof(l_aluno));
+    if (novo_no != NULL)
+    {
+        novo_no->notas = NULL;
+        novo_no->matricula = NULL;
+        novo_no->prox = NULL;
+
+        strcpy(novo_no->info.cod_curso, "");  
+        strcpy(novo_no->info.matricula, "");      
+        strcpy(novo_no->info.nome, "");      
+    }
+    
+    return novo_no;
+}
+
+//Preencher as structs
+arv_curso *cadastrar_curso(arv_curso **no)
+{
+    printf("Informe o nome do curso: ");
+    scanf(" %[^\n]", (*no)->info.nome);
+
+    printf("Informe o codigo do curso: ");
+    scanf(" %[^\n]", (*no)->info.cod_curso);
+
+    printf("Informe a quantidade de periodos do curso: ");
+    scanf(" %d", &(*no)->info.qtd_periodos);
+
+    return (*no);
+}
+arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
 {
     int i = 0, ch = 0, qtd = curso->info.qtd_periodos;
+
+    printf("Informe o nome da disciplina: ");
+    scanf(" %[^\n]", (*no)->info.nome);
+
+    printf("Informe o codigo da disciplina: ");
+    scanf(" %[^\n]", (*no)->info.cod_dis);
+
+    printf("Informe o periodo da disciplina no curso:\n");
+    while (i < 1 || i > qtd)
+        scanf(" %d", &i);
     
-    arv_dis *nova_dis = (arv_dis*)malloc(sizeof(arv_dis));
-    if(nova_dis != NULL)
-    {
-        nova_dis->dir = NULL;
-        nova_dis->esq = NULL;
+    (*no)->info.periodo = i;
+    
+    printf("Informe a carga horaria da disciplina:\n");
+    while(ch < 30 || ch > 90 || ch % 15 != 0)
+        scanf(" %d", &ch);
 
-        printf("\nInforme o codigo da disciplina: ");
-        scanf(" %[^\n]", nova_dis->info.cod_dis);
-
-        printf("\nInforme o nome da disciplina: ");
-        scanf(" %[^\n]", nova_dis->info.nome);
-       
-        printf("Informe o periodo da disciplina no curso:\n");
-        while (i < 1 || i > qtd)
-            scanf(" %d", &i);
-
-        nova_dis->info.periodo = i;
-        
-        printf("Informe a carga horaria da disciplina:\n");
-        while(ch < 30 || ch > 90 || ch % 15 != 0)
-            scanf(" %d", &ch);
-        nova_dis->info.carga_hr = ch;
-    }
-
-    return nova_dis;
+    (*no)->info.carga_hr = ch;
+    
+    return (*no);
 }
-l_aluno *cadastrar_aluno(arv_curso *curso)
+l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 {
-    l_aluno *novo_aluno = (l_aluno*)malloc(sizeof(l_aluno));
-    if(novo_aluno != NULL)
-    {
-        novo_aluno->prox = NULL;
-        novo_aluno->matricula = NULL;
-        novo_aluno->notas = NULL;
-        
+    printf("Informe o nome do aluno:\n");
+    scanf(" %[^\n]", (*no)->info.nome);
 
-        printf("Informe o nome do aluno:\n");
-        scanf(" %[^\n]", novo_aluno->info.nome);
+    printf("Informe a matricula:\n");
+    scanf(" %[^\n]", (*no)->info.matricula);
 
-        printf("Informe a matricula:\n");
-        scanf(" %[^\n]", novo_aluno->info.matricula);
+    strcpy((*no)->info.cod_curso, curso->info.cod_curso);
 
-        strcpy(novo_aluno->info.cod_curso, curso->info.cod_curso);
-    }
-
-    return novo_aluno;
+    return (*no);
 }
 
+//Inserir nas árvores e lista
 int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 {
     int inseriu = 1;
@@ -126,17 +190,64 @@ int inserir_arv_dis(arv_dis **disciplina, arv_dis *no)
         
     return inseriu;
 }
-int inserir_aluno(l_aluno **aluno, l_aluno *no)
+int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 {
     int inseriu = 1;
 
     if(*aluno == NULL) *aluno = no;
 
     else if(strcmp((*aluno)->info.nome, no->info.nome) < 0)
-            inseriu = inserir_aluno(&((*aluno)->prox), no);
+            inseriu = inserir_lista_aluno(&((*aluno)->prox), no);
 
         else inseriu = 0;
 
     return inseriu;
 }
 
+//Imprimir as árvores e lista (in-ordem)
+void imprimir_arv_curso(arv_curso *raiz)
+{
+    if (raiz != NULL)
+    {
+        imprimir_arv_curso(raiz->esq);
+        printf("Codigo: %s  ", raiz->info.cod_curso);
+        printf("Nome: %s  ", raiz->info.nome);
+        printf("Quantidade de periodos: %d  ", raiz->info.qtd_periodos);
+        printf("\n");
+        imprimir_arv_curso(raiz->dir);
+    }   
+}
+void imprimir_arv_dis(arv_dis *raiz)
+{
+    if (raiz != NULL)
+    {
+        imprimir_arv_dis(raiz->esq);
+        printf("Codigo: %s  ", raiz->info.cod_dis);
+        printf("Nome: %s  ", raiz->info.nome);
+        printf("Quantidade de periodos: %d  ", raiz->info.periodo);
+        printf("Carga Horaria: %d  ", raiz->info.carga_hr);
+        printf("\n");
+        imprimir_arv_dis(raiz->dir);
+    }   
+}
+void imprimir_lista_aluno(l_aluno *no)
+{
+   if (no != NULL)
+   {
+        printf("Matricula: %s  ", no->info.matricula);
+        printf("Nome: %s  ", no->info.nome);
+        printf("Codigo do curso: %s  ", no->info.cod_curso);
+        printf("\n");
+        imprimir_lista_aluno(no->prox);
+   }
+}
+
+
+//Buscar nós nas árvores e lista
+
+
+
+//Remover nós nas árvores e lista
+
+
+//Liberar memória
