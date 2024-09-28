@@ -5,66 +5,111 @@
 
 int main ()
 {
-    int op = 0, erro;
+    int op = 0, verificacao;
     
-    arv_curso *noc;
-    arv_dis *nod;
-    l_aluno *noa;
-
-    noc = NULL;
-    nod = NULL;
-    noa = NULL;
-
-    arv_curso *arv_curso;
-    arv_dis *arv_dis;
-    l_aluno *l_aluno;
+    //Criando as árvores e lista
+    arv_curso *arvCurso;
+    arv_dis *arvDis;
+    l_aluno *lAluno;
+    arvCurso = criar_arv_curso(); 
+    arvDis = criar_arv_dis();
+    lAluno = criar_lista_aluno();
     
-    arv_curso = criar_arv_curso(); 
-    arv_dis = criar_arv_dis();
-    l_aluno = criar_list_aluno();
+    //Criando os nós
+    arv_curso *noCurso;
+    arv_dis *noDis;
+    l_aluno *noAluno;
+    noCurso = NULL;
+    noDis = NULL;
+    noAluno = NULL;
 
     do
     {
+        printf("\n===== MENU =====");
         printf("\n1. Cadastrar Curso");
         printf("\n2. Cadastrar Disciplina");
         printf("\n3. Cadastrar Aluno");
-        printf("\n0. Sair");
+        printf("\n4. Imprimir Curso");
+        printf("\n5. Imprimir Disciplina");
+        printf("\n6. Imprimir Aluno");
+        printf("\n0. Sair\n");
+
         printf("\nEscolha uma opcao: ");
         scanf(" %d", &op);
 
         switch (op)
         {
         case 1:
-            noc = cadastrar_curso();
-            erro = inserir_arv_curso(&arv_curso, noc);
-
-            if (erro == 1) printf("\nCadastro do curso realizado com sucesso!");
-            else printf("\nErro ao cadastrar curso!");
-
+            printf("\n- Cadastrando Curso:\n");
+            noCurso = alocar_no_curso(); //Criando um nó nulo
+            if (noCurso != NULL)
+            {
+                noCurso = cadastrar_curso(&noCurso); //Mandando o nó nulo e recebendo ele preenchido
+                
+                verificacao = inserir_arv_curso(&arvCurso, noCurso);
+                if (verificacao == 1) printf("\nCadastro do curso realizado com sucesso!");
+                else printf("\nErro ao cadastrar curso!");
+            }
             break;
+
         case 2:
-            nod = cadastrar_disciplina(arv_curso);
-            erro = inserir_arv_dis(&arv_dis, nod);
+            printf("\n- Cadastrando Disciplina:\n");
+            imprimir_arv_curso(arvCurso);
+            //Fazer função de buscar os cursos
+            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código 
 
-            if (erro == 1) printf("\nCadastro da disciplina realizado com sucesso!");
-            else printf("\nErro ao cadastrar disciplina!");
+           noDis = alocar_no_dis();
+           if (noDis != NULL)
+           {
+                noDis = cadastrar_disciplina(&noDis, noCurso);
+
+                verificacao = inserir_arv_dis(&arvDis, noDis);
+                if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!");
+                else printf("\nErro ao cadastrar disciplina!");
+           }
             break;
+
         case 3:
-            noa = cadastrar_aluno(arv_curso);
-            erro = inserir_aluno(&l_aluno, noa);
+            printf("\n- Cadastrando Aluno:\n");
+            imprimir_arv_curso(arvCurso);
+            //Fazer função de buscar os cursos
+            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código 
 
-            if (erro == 1) printf("\nCadastro de aluno realizado com sucesso!");
-            else printf("\nErro ao cadastrar aluno!");
+            noAluno = alocar_no_aluno();
+            if (noAluno != NULL)
+            {
+                noAluno = cadastrar_aluno(&noAluno, noCurso);
+
+                verificacao = inserir_lista_aluno(&lAluno, noAluno);
+                if (verificacao == 1) printf("\nCadastro de aluno realizado com sucesso!");
+                else printf("\nErro ao cadastrar aluno!");
+            }
             break;
+
+        case 4:
+            printf("\n- Imprimindo Cursos:\n");
+            imprimir_arv_curso(arvCurso);
+            break;
+
+        case 5:
+            printf("\n- Imprimindo Disciplinas:\n");
+            imprimir_arv_dis(arvDis);
+            break;
+
+        case 6:
+            printf("\n- Imprimindo Alunos:\n");
+            imprimir_lista_aluno(lAluno);
+            break;
+
+        case 0:
+                printf("Saindo...\n");
+                break;
         
         default:
             printf("\nOpcao invalida!");
             break;
         }
     } while (op != 0);
-    
-
 
     return 0;
 }
-
