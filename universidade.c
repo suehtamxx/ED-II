@@ -110,7 +110,7 @@ arv_curso *cadastrar_curso(arv_curso **no)
 {
     printf("Informe o nome do curso: ");
     scanf(" %[^\n]", (*no)->info.nome);
-
+    
     printf("Informe o codigo do curso: ");
     scanf(" %[^\n]", (*no)->info.cod_curso);
 
@@ -244,8 +244,49 @@ void imprimir_lista_aluno(l_aluno *no)
 
 
 //Buscar nós nas árvores e lista
+int buscar_curso(arv_curso *no, char *busca)
+{
+    int encontrei = 0;
+    if(no != NULL)
+    {
+        if(strcmp(busca, no->info.cod_curso) > 0)
+            encontrei = buscar_curso(no->dir, busca);
 
-
+            else if(strcmp(busca, no->info.cod_curso) < 0)
+                encontrei = buscar_curso(no->esq, busca);
+            
+            else encontrei = 1;
+    }  
+    return encontrei;
+}
+int buscar_disciplina(arv_dis *no, char *busca)
+{
+    int encontrei = 0;
+    if(no != NULL)
+    {
+        if(strcmp(busca, no->info.cod_dis) > 0)
+            encontrei = buscar_disciplina(no->dir, busca);
+        
+        else if(strcmp(busca, no->info.cod_dis) < 0)
+            encontrei = buscar_disciplina(no->esq, busca);
+        
+        else encontrei = 1;
+    }
+    return encontrei;
+}
+int buscar_aluno(l_aluno *aluno, char *busca)
+{
+    int encontrei = 0;
+    if(aluno != NULL)
+    {
+        if(strcmp(busca, aluno->info.nome) == 0)
+            encontrei = 1;
+        
+        else 
+            encontrei = buscar_aluno(aluno->prox, busca); 
+    }
+    return encontrei;
+}
 
 //Remover nós nas árvores e lista
 
