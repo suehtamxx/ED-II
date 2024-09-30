@@ -23,6 +23,7 @@ int main ()
     noDis = NULL;
     noAluno = NULL;
 
+    char busca[5];
     do
     {
         printf("\n===== MENU =====");
@@ -100,7 +101,6 @@ int main ()
             printf("\n- Imprimindo Alunos:\n");
             imprimir_lista_aluno(lAluno);
             break;
-
         case 0:
                 printf("Saindo...\n");
                 break;
