@@ -104,8 +104,9 @@ void imprimir_lista_aluno(l_aluno *no);
 
 
 //Buscar nós nas árvores e lista
-
-
+int buscar_curso(arv_curso *no, char *busca);
+int buscar_disciplina(arv_dis *no, char *busca);
+int buscar_aluno(l_aluno *aluno, char *busca);
 
 //Remover nós nas árvores e lista
 
