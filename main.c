@@ -6,6 +6,7 @@
 int main ()
 {
     int op = 0, verificacao;
+    char busca[5];
     
     //Criando as árvores e lista
     arv_curso *arvCurso;
@@ -23,7 +24,6 @@ int main ()
     noDis = NULL;
     noAluno = NULL;
 
-    char busca[5];
     do
     {
         printf("\n===== MENU =====");
