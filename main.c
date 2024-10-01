@@ -6,7 +6,6 @@
 int main ()
 {
     int op = 0, verificacao;
-    char busca[5];
     
     //Criando as árvores e lista
     arv_curso *arvCurso;
@@ -24,6 +23,8 @@ int main ()
     noDis = NULL;
     noAluno = NULL;
 
+    char busca[5];
+    int comparacao = 0;
     do
     {
         printf("\n===== MENU =====");
@@ -56,34 +57,46 @@ int main ()
         case 2:
             printf("\n- Cadastrando Disciplina:\n");
             imprimir_arv_curso(arvCurso);
-            //Fazer função de buscar os cursos
-            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código 
+            printf("Informe o codigo do curso:\n");
+            scanf("%s ", busca);
+            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código
+            comparacao = buscar_curso(arvCurso, busca);
+            if(comparacao == 0)
+            {
+                noDis = alocar_no_dis();
+                    if (noDis != NULL)
+                    {
+                            noDis = cadastrar_disciplina(&noDis, busca);
 
-           noDis = alocar_no_dis();
-           if (noDis != NULL)
-           {
-                noDis = cadastrar_disciplina(&noDis, noCurso);
-
-                verificacao = inserir_arv_dis(&arvDis, noDis);
-                if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!");
-                else printf("\nErro ao cadastrar disciplina!");
-           }
+                            verificacao = inserir_arv_dis(&arvDis, noDis);
+                            if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!");
+                            else printf("\nErro ao cadastrar disciplina!");
+                    }
+            }
             break;
 
         case 3:
-            printf("\n- Cadastrando Aluno:\n");
-            imprimir_arv_curso(arvCurso);
             //Fazer função de buscar os cursos
-            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código 
+            //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código
+            if(arvCurso != NULL){
+                printf("\n- Cadastrando Aluno:\n");
+                imprimir_arv_curso(arvCurso);   
+                    printf("Informe o codigo do curso:\n");
+                    scanf("%s ", busca);
+                    comparacao = buscar_curso(arvCurso, busca);
+                    
+                    if(comparacao == 0){
+                        noAluno = alocar_no_aluno();
+                            if (noAluno != NULL)
+                            {
+                                noAluno = cadastrar_aluno(&noAluno, noCurso);
 
-            noAluno = alocar_no_aluno();
-            if (noAluno != NULL)
-            {
-                noAluno = cadastrar_aluno(&noAluno, noCurso);
-
-                verificacao = inserir_lista_aluno(&lAluno, noAluno);
-                if (verificacao == 1) printf("\nCadastro de aluno realizado com sucesso!");
-                else printf("\nErro ao cadastrar aluno!");
+                                verificacao = inserir_lista_aluno(&lAluno, noAluno);
+                                if (verificacao == 1) printf("\nCadastro de aluno realizado com sucesso!");
+                                else printf("\nErro ao cadastrar aluno!");
+                            }
+                        
+                }
             }
             break;
 
