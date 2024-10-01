@@ -37,8 +37,8 @@ arv_curso *alocar_no_curso()
         novo_no->dir = NULL;
         novo_no->dis = NULL;
 
-        strcpy(novo_no->info.cod_curso, "");  
         strcpy(novo_no->info.nome, "");      
+        strcpy(novo_no->info.cod_curso, "");  
         novo_no->info.qtd_periodos = 0;  
     }
     
@@ -210,9 +210,9 @@ void imprimir_arv_curso(arv_curso *raiz)
     if (raiz != NULL)
     {
         imprimir_arv_curso(raiz->esq);
-        printf("Codigo: %s  ", raiz->info.cod_curso);
-        printf("Nome: %s  ", raiz->info.nome);
-        printf("Quantidade de periodos: %d  ", raiz->info.qtd_periodos);
+        printf("Nome: %s ", raiz->info.nome);
+        printf("Codigo: %s ", raiz->info.cod_curso);
+        printf("Quantidade de periodos: %d", raiz->info.qtd_periodos);
         printf("\n");
         imprimir_arv_curso(raiz->dir);
     }   
