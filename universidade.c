@@ -129,13 +129,13 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
     printf("Informe o codigo da disciplina: ");
     scanf(" %[^\n]", (*no)->info.cod_dis);
 
-    printf("Informe o periodo da disciplina no curso:\n");
+    printf("Informe o periodo da disciplina no curso: ");
     while (i < 1 || i > qtd)
         scanf(" %d", &i);
     
     (*no)->info.periodo = i;
     
-    printf("Informe a carga horaria da disciplina:\n");
+    printf("Informe a carga horaria da disciplina: ");
     while(ch < 30 || ch > 90 || ch % 15 != 0)
         scanf(" %d", &ch);
 
@@ -181,12 +181,13 @@ int inserir_arv_dis(arv_dis **disciplina, arv_dis *no)
     if(*disciplina == NULL) *disciplina = no;
 
     else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
-            inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
+        inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
         
         else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
             inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
             
-            else inseriu = 0;
+            else  
+                inseriu = 0;
         
     return inseriu;
 }
@@ -210,9 +211,9 @@ void imprimir_arv_curso(arv_curso *raiz)
     if (raiz != NULL)
     {
         imprimir_arv_curso(raiz->esq);
-        printf("Nome: %s ", raiz->info.nome);
         printf("Codigo: %s ", raiz->info.cod_curso);
-        printf("Quantidade de periodos: %d", raiz->info.qtd_periodos);
+        printf("\nNome: %s ", raiz->info.nome);
+        printf("\nQuantidade de periodos: %d ", raiz->info.qtd_periodos);
         printf("\n");
         imprimir_arv_curso(raiz->dir);
     }   
@@ -222,10 +223,10 @@ void imprimir_arv_dis(arv_dis *raiz)
     if (raiz != NULL)
     {
         imprimir_arv_dis(raiz->esq);
-        printf("Codigo: %s  ", raiz->info.cod_dis);
-        printf("Nome: %s  ", raiz->info.nome);
-        printf("Quantidade de periodos: %d  ", raiz->info.periodo);
-        printf("Carga Horaria: %d  ", raiz->info.carga_hr);
+        printf("Codigo: %s ", raiz->info.cod_dis);
+        printf("\nNome: %s ", raiz->info.nome);
+        printf("\nPeriodo da disciplina no curso: %d ", raiz->info.periodo);
+        printf("\nCarga Horaria: %d ", raiz->info.carga_hr);
         printf("\n");
         imprimir_arv_dis(raiz->dir);
     }   
@@ -246,7 +247,7 @@ void imprimir_lista_aluno(l_aluno *no)
 //Buscar nós nas árvores e lista
 int buscar_curso(arv_curso *no, char *busca)
 {
-    int encontrei = 0;
+    int encontrei = 1;
     if(no != NULL)
     {
         if(strcmp(busca, no->info.cod_curso) > 0)
@@ -255,13 +256,14 @@ int buscar_curso(arv_curso *no, char *busca)
             else if(strcmp(busca, no->info.cod_curso) < 0)
                 encontrei = buscar_curso(no->esq, busca);
             
-            else encontrei = 1;
-    }  
+    } 
+        else encontrei = 0;
+
     return encontrei;
 }
 int buscar_disciplina(arv_dis *no, char *busca)
 {
-    int encontrei = 0;
+    int encontrei = 1;
     if(no != NULL)
     {
         if(strcmp(busca, no->info.cod_dis) > 0)
@@ -270,17 +272,17 @@ int buscar_disciplina(arv_dis *no, char *busca)
         else if(strcmp(busca, no->info.cod_dis) < 0)
             encontrei = buscar_disciplina(no->esq, busca);
         
-        else encontrei = 1;
+        else encontrei = 0;
     }
     return encontrei;
 }
 int buscar_aluno(l_aluno *aluno, char *busca)
 {
-    int encontrei = 0;
+    int encontrei = 1;
     if(aluno != NULL)
     {
         if(strcmp(busca, aluno->info.nome) == 0)
-            encontrei = 1;
+            encontrei = 0;
         
         else 
             encontrei = buscar_aluno(aluno->prox, busca); 
