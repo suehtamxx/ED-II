@@ -11,8 +11,8 @@ typedef struct aluno
 
 typedef struct disciplina
 {
+    char nome[100];
     char cod_dis[3];
-    char nome[50];
     int periodo;
     int carga_hr;
 }Disciplina;
@@ -26,8 +26,8 @@ typedef struct notas
 
 typedef struct curso
 {
+    char nome[40];
     char cod_curso[5];
-    char nome[30];
     int qtd_periodos;
 }Curso;
 
