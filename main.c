@@ -57,22 +57,23 @@ int main ()
         case 2:
             printf("\n- Cadastrando Disciplina:\n");
             imprimir_arv_curso(arvCurso);
-            printf("Informe o codigo do curso:\n");
-            scanf("%s ", busca);
+            printf("\nInforme o codigo do curso:\n");
+            scanf(" %[^\n]", busca);
             //passando como parâmetro o codigo do curso e retornar o nó do curso que pertence a esse código
             comparacao = buscar_curso(arvCurso, busca);
-            if(comparacao == 0)
-            {
-                noDis = alocar_no_dis();
-                    if (noDis != NULL)
-                    {
-                            noDis = cadastrar_disciplina(&noDis, busca);
+            //printf("comparacao: %d ", comparacao);
+                if(comparacao == 1)
+                {
+                    noDis = alocar_no_dis();
+                        if (noDis != NULL)
+                        {
+                                noDis = cadastrar_disciplina(&noDis, arvCurso);
 
-                            verificacao = inserir_arv_dis(&arvDis, noDis);
-                            if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!");
-                            else printf("\nErro ao cadastrar disciplina!");
-                    }
-            }
+                                verificacao = inserir_arv_dis(&arvDis, noDis);
+                                if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!");
+                                else printf("\nErro ao cadastrar disciplina!");
+                        }
+                }
             break;
 
         case 3:
@@ -84,12 +85,13 @@ int main ()
                     printf("Informe o codigo do curso:\n");
                     scanf("%s ", busca);
                     comparacao = buscar_curso(arvCurso, busca);
+                    printf("comparacao: %d", comparacao);
                     
-                    if(comparacao == 0){
+                    if(comparacao == 1){
                         noAluno = alocar_no_aluno();
                             if (noAluno != NULL)
                             {
-                                noAluno = cadastrar_aluno(&noAluno, noCurso);
+                                noAluno = cadastrar_aluno(&noAluno, arvCurso);
 
                                 verificacao = inserir_lista_aluno(&lAluno, noAluno);
                                 if (verificacao == 1) printf("\nCadastro de aluno realizado com sucesso!");
