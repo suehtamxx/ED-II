@@ -11,6 +11,8 @@ int main ()
     arv_curso *arvCurso;
     arv_dis *arvDis;
     l_aluno *lAluno;
+    arv_notas *arvNotas;
+    arvNotas = criar_arv_notas();
     arvCurso = criar_arv_curso(); 
     arvDis = criar_arv_dis();
     lAluno = criar_lista_aluno();
@@ -19,9 +21,11 @@ int main ()
     arv_curso *noCurso;
     arv_dis *noDis;
     l_aluno *noAluno;
+    arv_notas *noNotas;
     noCurso = NULL;
     noDis = NULL;
     noAluno = NULL;
+    noNotas = NULL;
 
     char busca[5];
     int comparacao = 0;
@@ -86,8 +90,8 @@ int main ()
                     scanf(" %[^\n]", busca);
 
                     comparacao = buscar_curso(arvCurso, busca);
-                    
-                    printf("comparacao: %d", comparacao);
+
+                    //printf("comparacao: %d", comparacao);
                     
                     if(comparacao == 1){
                         noAluno = alocar_no_aluno();
@@ -117,6 +121,20 @@ int main ()
         case 6:
             printf("\n- Imprimindo Alunos:\n");
             imprimir_lista_aluno(lAluno);
+            break;
+        case 7:
+        //é oq falei no whats, faz a busca da disciplina dai passa como parametro pra conseguir usar la dentro da funcao.
+            printf("Cadastrando notas:\n");
+            imprimir_arv_dis(arvDis);
+
+            printf("Informe a disciplina:\n");
+            scanf(" %[^\n]", busca);
+
+            comparacao = buscar_disciplina(arvDis, busca);
+            if(comparacao == 1)
+            {
+        
+            }
             break;
         case 0:
                 printf("Saindo...\n");
