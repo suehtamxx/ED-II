@@ -83,8 +83,10 @@ int main ()
                 printf("\n- Cadastrando Aluno:\n");
                 imprimir_arv_curso(arvCurso);   
                     printf("Informe o codigo do curso:\n");
-                    scanf("%s ", busca);
+                    scanf(" %[^\n]", busca);
+
                     comparacao = buscar_curso(arvCurso, busca);
+                    
                     printf("comparacao: %d", comparacao);
                     
                     if(comparacao == 1){
