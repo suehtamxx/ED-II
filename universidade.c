@@ -155,7 +155,20 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 
     return (*no);
 }
+//tentei seguir o caminho das outras funcoes.
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula, struct lista_alunos *l_aluno)
+{
+    printf("Informe a nota do aluno: ");
+    scanf(" %f", &(*notas).info.nota_final);
 
+    printf("Informe o periodo cursado(Ex: 2024.2): ");
+    scanf(" %[^\n]", (*notas).info.semestre);
+    
+    //aqui eu to tentando pegar a o codigo da disciplina e ja alocar nas notas
+    strcpy(matricula.info.cod_dis, (*notas).info.cod_dis);
+
+    return notas;
+}
 //Inserir nas árvores e lista
 int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 {
@@ -219,6 +232,7 @@ void imprimir_arv_curso(arv_curso *raiz)
     }   
 }
 void imprimir_arv_dis(arv_dis *raiz)
+
 {
     if (raiz != NULL)
     {
