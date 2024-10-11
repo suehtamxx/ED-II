@@ -108,7 +108,7 @@ int main ()
                     {
                         noMatri = cadastrar_matricula(&noMatri, noDis);
 
-                        //verificacao = inserir_arv_matricula();
+                        verificacao = inserir_arv_matricula();
                         if (verificacao == 1) printf("\nCadastro da matricula realizado com sucesso!\n");
                         else printf("\nErro ao cadastrar disciplina!\n");
                     }
