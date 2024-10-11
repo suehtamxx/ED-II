@@ -2,14 +2,7 @@
 #define UNIVERSIDADE_H
 
 //Structs
-typedef struct aluno
-{
-    char matricula[7];
-    char nome[50];
-    char cod_curso[5];
-}Aluno;
-
-typedef struct disciplina
+typedef struct info_disciplina
 {
     char nome[100];
     char cod_dis[3];
@@ -17,36 +10,35 @@ typedef struct disciplina
     int carga_hr;
 }Disciplina;
 
-typedef struct notas
+typedef struct info_notas
 {
     char cod_dis[3];
     char semestre[6];
     float nota_final;
 }Notas;
 
-typedef struct curso
-{
-    char nome[40];
-    char cod_curso[5];
-    int qtd_periodos;
-}Curso;
-
-typedef struct matricula
+typedef struct info_matricula
 {
     char cod_dis[3];
 }Matricula;
 
-//Árvores
 typedef struct arvore_disciplina
 {
     Disciplina info;
     struct arvore_disciplina *esq, *dir;
 }arv_dis;
 
+typedef struct info_curso
+{
+    char nome[40];
+    char cod_curso[5];
+    int qtd_periodos;
+    arv_dis *dis;
+}Curso;
+
 typedef struct arvore_curso
 {
     Curso info;
-    arv_dis *dis;
     struct arvore_curso *esq, *dir;
 }arv_curso;
 
@@ -62,12 +54,18 @@ typedef struct arvore_matricula
     struct arvore_matricula *esq, *dir;
 }arv_matri;
 
-//Lista
+typedef struct info_aluno
+{
+    char matricula[7];
+    char nome[50];
+    char cod_curso[5];
+    arv_matri *arv_matricula;
+    arv_notas *notas;
+}Aluno;
+
 typedef struct lista_alunos
 {
    Aluno info;
-   arv_notas *notas;
-   arv_matri *matricula;
    struct lista_alunos *prox;
 }l_aluno;
 
@@ -88,7 +86,7 @@ l_aluno *alocar_no_aluno();
 //Preencher as structs
 arv_curso *cadastrar_curso(arv_curso **no);
 arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso);
-// arv_matri cadastrar_matricula(arv_matri matricula, struct lista_alunos *l_aluno);
+arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina);
 // arv_notas cadastrar_notas(arv_notas notas, arv_matri matricula, struct lista_alunos *l_aluno);
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso);
 
@@ -104,9 +102,9 @@ void imprimir_lista_aluno(l_aluno *no);
 
 
 //Buscar nós nas árvores e lista
-int buscar_curso(arv_curso *no, char *busca);
-int buscar_disciplina(arv_dis *no, char *busca);
-int buscar_aluno(l_aluno *aluno, char *busca);
+arv_curso *buscar_curso(arv_curso *no, char *busca);
+arv_dis *buscar_disciplina(arv_dis *no, char *busca);
+l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
 
 //Remover nós nas árvores e lista
 
