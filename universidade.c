@@ -30,12 +30,14 @@ l_aluno * criar_lista_aluno()
 //Criar os nós das árvores e lista
 arv_curso *alocar_no_curso()
 {
-    arv_curso *novo_no = (arv_curso*)malloc(sizeof(arv_curso));
+    arv_curso *novo_no;
+    novo_no = (arv_curso*)malloc(sizeof(arv_curso));
+
     if (novo_no != NULL)
     {
         novo_no->esq = NULL;
         novo_no->dir = NULL;
-        novo_no->dis = NULL;
+        novo_no->info.dis = NULL;
 
         strcpy(novo_no->info.nome, "");      
         strcpy(novo_no->info.cod_curso, "");  
@@ -46,7 +48,9 @@ arv_curso *alocar_no_curso()
 }
 arv_dis *alocar_no_dis()
 {
-    arv_dis *novo_no = (arv_dis*)malloc(sizeof(arv_dis));
+    arv_dis *novo_no;
+    novo_no = (arv_dis*)malloc(sizeof(arv_dis));
+
     if (novo_no != NULL)
     {
         novo_no->esq = NULL;
@@ -62,7 +66,9 @@ arv_dis *alocar_no_dis()
 }
 arv_matri *alocar_no_matricula()
 {
-    arv_matri *novo_no = (arv_matri*)malloc(sizeof(arv_matri));
+    arv_matri *novo_no;
+    novo_no = (arv_matri*)malloc(sizeof(arv_matri));
+
     if (novo_no != NULL)
     {
         novo_no->esq = NULL;
@@ -75,7 +81,9 @@ arv_matri *alocar_no_matricula()
 }
 arv_notas *alocar_no_notas()
 {
-    arv_notas *novo_no = (arv_notas*)malloc(sizeof(arv_notas));
+    arv_notas *novo_no;
+    novo_no = (arv_notas*)malloc(sizeof(arv_notas));
+
     if (novo_no != NULL)
     {
         novo_no->esq = NULL;
@@ -90,12 +98,13 @@ arv_notas *alocar_no_notas()
 }
 l_aluno *alocar_no_aluno()
 {
-    l_aluno *novo_no = (l_aluno*)malloc(sizeof(l_aluno));
+    l_aluno *novo_no;
+    novo_no = (l_aluno*)malloc(sizeof(l_aluno));
     if (novo_no != NULL)
     {
-        novo_no->notas = NULL;
-        novo_no->matricula = NULL;
         novo_no->prox = NULL;
+        novo_no->info.notas = NULL;
+        novo_no->info.arv_matricula = NULL;
 
         strcpy(novo_no->info.cod_curso, "");  
         strcpy(novo_no->info.matricula, "");      
@@ -140,7 +149,14 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
         scanf(" %d", &ch);
 
     (*no)->info.carga_hr = ch;
-    
+
+
+    return (*no);
+}
+arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina)
+{
+    strcpy(disciplina->info.cod_dis, (*no)->info.cod_dis);
+
     return (*no);
 }
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
@@ -174,16 +190,16 @@ int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 {
     int inseriu = 1;
 
-    if (*curso == NULL) *curso = no;
+    if (*curso == NULL) 
+        *curso = no;
 
     else if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) < 0) 
         inseriu = inserir_arv_curso(&((*curso)->esq), no);
 
-        else if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) > 0)
-            inseriu = inserir_arv_curso(&((*curso)->dir), no);
+    else if (strcmp(no->info.cod_curso, (*curso)->info.cod_curso) > 0)
+        inseriu = inserir_arv_curso(&((*curso)->dir), no);
             
-            else
-                inseriu = 0;
+    else inseriu = 0;
     
     return inseriu;
 }
@@ -191,32 +207,51 @@ int inserir_arv_dis(arv_dis **disciplina, arv_dis *no)
 {
     int inseriu = 1;
 
-    if(*disciplina == NULL) *disciplina = no;
+    if(*disciplina == NULL) 
+        *disciplina = no;
 
     else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
         inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
         
-        else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
-            inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
+    else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
+        inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
             
-            else  
-                inseriu = 0;
+    else inseriu = 0;
         
+    return inseriu;
+}
+int inserir_arv_matricula(arv_matri **matricula, arv_matri *no)
+{
+    int inseriu = 1;
+
+    if (matricula == NULL)
+        *matricula = no;
+
+    else if(strcmp(no->info.cod_dis, (*matricula)->info.cod_dis) < 0)
+        inseriu = inserir_arv_matricula(&((*matricula)->esq), no);
+
+    else if (strcmp(no->info.cod_dis, (*matricula)->info.cod_dis) > 0)
+        inseriu = inserir_arv_matricula(&((*matricula)->dir), no);
+
+    else inseriu = 0;
+    
     return inseriu;
 }
 int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 {
     int inseriu = 1;
 
-    if(*aluno == NULL) *aluno = no;
+    if(*aluno == NULL) 
+        *aluno = no;
 
     else if(strcmp((*aluno)->info.nome, no->info.nome) < 0)
-            inseriu = inserir_lista_aluno(&((*aluno)->prox), no);
+        inseriu = inserir_lista_aluno(&((*aluno)->prox), no);
 
-        else inseriu = 0;
+    else inseriu = 0;
 
     return inseriu;
 }
+
 
 //Imprimir as árvores e lista (in-ordem)
 void imprimir_arv_curso(arv_curso *raiz)
@@ -224,9 +259,9 @@ void imprimir_arv_curso(arv_curso *raiz)
     if (raiz != NULL)
     {
         imprimir_arv_curso(raiz->esq);
-        printf("Codigo: %s ", raiz->info.cod_curso);
-        printf("\nNome: %s ", raiz->info.nome);
-        printf("\nQuantidade de periodos: %d ", raiz->info.qtd_periodos);
+        printf("Codigo: %s ;", raiz->info.cod_curso);
+        printf("Nome: %s ;", raiz->info.nome);
+        printf("Quantidade de periodos: %d ;", raiz->info.qtd_periodos);
         printf("\n");
         imprimir_arv_curso(raiz->dir);
     }   
@@ -237,10 +272,10 @@ void imprimir_arv_dis(arv_dis *raiz)
     if (raiz != NULL)
     {
         imprimir_arv_dis(raiz->esq);
-        printf("Codigo: %s ", raiz->info.cod_dis);
-        printf("\nNome: %s ", raiz->info.nome);
-        printf("\nPeriodo da disciplina no curso: %d ", raiz->info.periodo);
-        printf("\nCarga Horaria: %d ", raiz->info.carga_hr);
+        printf("Codigo: %s ;", raiz->info.cod_dis);
+        printf("Nome: %s ;", raiz->info.nome);
+        printf("Periodo da disciplina no curso: %d ;", raiz->info.periodo);
+        printf("Carga Horaria: %d ;", raiz->info.carga_hr);
         printf("\n");
         imprimir_arv_dis(raiz->dir);
     }   
@@ -249,59 +284,81 @@ void imprimir_lista_aluno(l_aluno *no)
 {
    if (no != NULL)
    {
-        printf("Matricula: %s  ", no->info.matricula);
-        printf("Nome: %s  ", no->info.nome);
-        printf("Codigo do curso: %s  ", no->info.cod_curso);
+        printf("Matricula: %s ;", no->info.matricula);
+        printf("Nome: %s ;", no->info.nome);
+        printf("Codigo do curso: %s ;", no->info.cod_curso);
         printf("\n");
         imprimir_lista_aluno(no->prox);
    }
 }
 
+void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
+{
+    if (no != NULL)
+    {
+        if (strcmp(no->info.cod_curso, curso->info.cod_curso) > 0)
+        {
+            printf("Matricula: %s ;", no->info.matricula);
+            printf("Nome: %s ;", no->info.nome);
+            printf("Codigo do curso: %s ;", no->info.cod_curso);
+            printf("\n");
+            imprimir_alunos_curso(curso, no->prox);
+        }
+    }
+}
 
 //Buscar nós nas árvores e lista
-int buscar_curso(arv_curso *no, char *busca)
+arv_curso *buscar_curso(arv_curso *no, char *busca)
 {
-    int encontrei = 1;
+    arv_curso *novo_no;
+    novo_no = NULL;
+
     if(no != NULL)
     {
         if(strcmp(busca, no->info.cod_curso) > 0)
-            encontrei = buscar_curso(no->dir, busca);
+            novo_no = buscar_curso(no->dir, busca);
 
-            else if(strcmp(busca, no->info.cod_curso) < 0)
-                encontrei = buscar_curso(no->esq, busca);
+        else if(strcmp(busca, no->info.cod_curso) < 0)
+            novo_no = buscar_curso(no->esq, busca);
             
+        else novo_no = no;
     } 
-        else encontrei = 0;
 
-    return encontrei;
+    return novo_no;
 }
-int buscar_disciplina(arv_dis *no, char *busca)
+arv_dis *buscar_disciplina(arv_dis *no, char *busca)
 {
-    int encontrei = 1;
-    if(no != NULL)
+    arv_dis *novo_no;
+    novo_no = NULL;
+
+    if (no != NULL)
     {
-        if(strcmp(busca, no->info.cod_dis) > 0)
-            encontrei = buscar_disciplina(no->dir, busca);
+        if (strcmp(busca, no->info.cod_dis) > 0)
+            novo_no = buscar_disciplina(no->dir, busca);
         
-        else if(strcmp(busca, no->info.cod_dis) < 0)
-            encontrei = buscar_disciplina(no->esq, busca);
+        else if (strcmp(busca, no->info.cod_dis) < 0)
+            novo_no = buscar_disciplina(no->esq, busca);
         
-        else encontrei = 0;
+        else novo_no = no;
     }
-    return encontrei;
+
+    return novo_no;
 }
-int buscar_aluno(l_aluno *aluno, char *busca)
+l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
 {
-    int encontrei = 1;
-    if(aluno != NULL)
+    l_aluno *novo_no;
+    novo_no = NULL;
+
+    if (aluno != NULL)
     {
-        if(strcmp(busca, aluno->info.nome) == 0)
-            encontrei = 0;
-        
+        if (strcmp(busca, aluno->info.nome) == 0)
+            novo_no = aluno;
+    
         else 
-            encontrei = buscar_aluno(aluno->prox, busca); 
+            novo_no = buscar_aluno(aluno->prox, busca);
     }
-    return encontrei;
+
+    return novo_no;
 }
 
 //Remover nós nas árvores e lista
