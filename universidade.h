@@ -87,7 +87,8 @@ l_aluno *alocar_no_aluno();
 arv_curso *cadastrar_curso(arv_curso **no);
 arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso);
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina);
-// arv_notas cadastrar_notas(arv_notas notas, arv_matri matricula, struct lista_alunos *l_aluno);
+// arv_matri cadastrar_matricula(arv_matri matricula, struct lista_alunos *l_aluno);
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula, struct lista_alunos *l_aluno);
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso);
 
 //Inserir nas árvores e lista
