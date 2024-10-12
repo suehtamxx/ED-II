@@ -155,7 +155,7 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
 }
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina)
 {
-    strcpy(disciplina->info.cod_dis, (*no)->info.cod_dis);
+    strcpy((*no)->info.cod_dis, disciplina->info.cod_dis);
 
     return (*no);
 }
@@ -296,7 +296,7 @@ void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
 {
     if (no != NULL)
     {
-        if (strcmp(no->info.cod_curso, curso->info.cod_curso) > 0)
+        if (strcmp(no->info.cod_curso, curso->info.cod_curso) == 0)
         {
             printf("Matricula: %s ;", no->info.matricula);
             printf("Nome: %s ;", no->info.nome);
@@ -353,7 +353,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
     {
         if (strcmp(busca, aluno->info.nome) == 0)
             novo_no = aluno;
-    
+
         else 
             novo_no = buscar_aluno(aluno->prox, busca);
     }
