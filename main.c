@@ -33,6 +33,7 @@ int main ()
         printf("\n6. Imprimir Curso");
         printf("\n7. Imprimir Disciplina");
         printf("\n8. Imprimir Aluno");
+        printf("\n9. Imprimir Disciplina Por Periodo");
         printf("\n0. Sair\n");
 
         printf("\nEscolha uma opcao: ");
@@ -73,7 +74,7 @@ int main ()
                     if (verificacao == 1) printf("\nCadastro da disciplina realizado com sucesso!\n");
                     else printf("\nErro ao cadastrar disciplina!\n");
                 }
-            }
+            }else printf("Curso nao encontrado!");
             break;
 
         case 3:
@@ -87,38 +88,37 @@ int main ()
 
             if (noCurso != NULL)
             {
-                imprimir_arv_dis(noCurso->info.dis);
-                printf("\nInforme o codigo da disciplina: ");
+                imprimir_alunos_curso(noCurso, lAluno);
+                printf("\nInforme a matricula do aluno: ");
                 scanf(" %[^\n]", busca);
 
-                noDis = buscar_disciplina(noCurso->info.dis, busca);
-
-                if (noDis != NULL)
-                {
-                    imprimir_alunos_curso(noCurso, lAluno); //não está printando e daq pra baixo ta dando erro
-                    printf("\nInforme a matricula do aluno: ");
-                    scanf(" %[^\n]", busca);
+                noAluno = buscar_aluno(lAluno, busca);
                 
-                    noAluno = buscar_aluno(lAluno, busca);
-                    //printf("certo\n");
-                    if (noAluno != NULL)
+                if (noAluno != NULL)
+                {
+                    imprimir_arv_dis(noCurso->info.dis);
+                    printf("\nInforme o codigo da disciplina: ");
+                    scanf(" %[^\n]", busca);
+                    
+                    noDis = buscar_disciplina(noCurso->info.dis, busca);
+                    
+                    if (noDis != NULL)
                     {
-                        //printf("certo2\n");
                         noMatri = alocar_no_matricula();
 
                         if (noMatri != NULL)
                         {
                             noMatri = cadastrar_matricula(&noMatri, noDis);
-                            //printf("certo3");
 
                             verificacao = inserir_arv_matricula(&(noAluno->info.arv_matricula), noMatri);
                             if (verificacao == 1) printf("\nCadastro da matricula realizado com sucesso!\n");
                             else printf("\nErro ao cadastrar disciplina!\n");
                         }
                         else printf("\nErro ao alocar matricula (cadastrar matricula)!\n");
-                    }
-                }            
-            }
+                    }else printf("\nDisciplina nao encontrada!\n");
+                }else printf("\nAluno nao encontrado!\n");            
+            }else printf("\nCurso nao encontrado!\n");
+
             break;
 
         case 4:
@@ -148,15 +148,23 @@ int main ()
 
         case 5:
             printf("Cadastrando notas:\n");
-                imprimir_arv_dis(arvDis);
-
-                printf("Informe a disciplina:\n");
+                imprimir_arv_curso(arvCurso);
+                printf("Informe o codigo do curso: ");
                 scanf(" %[^\n]", busca);
-
-                noDis = buscar_disciplina(arvDis, busca);
-                if(noDis != NULL)
+                
+                noCurso = buscar_curso(arvCurso, busca);
+                if(noCurso != NULL)
                 {
-                    
+                    imprimir_arv_dis(arvDis);
+
+                    printf("Informe a disciplina:\n");
+                    scanf(" %[^\n]", busca);
+
+                    noDis = buscar_disciplina(arvDis, busca);
+                    if(noDis != NULL)
+                    {
+                        
+                    }
                 }
                 break;
 
@@ -174,14 +182,36 @@ int main ()
 
             noCurso = buscar_curso(arvCurso, busca);
             if(noCurso != NULL)
-                imprimir_arv_dis(arvCurso->info.dis);
+                imprimir_arv_dis(noCurso->info.dis);
             break;
 
         case 8:
-            printf("\n- Imprimindo Alunos:\n");
-            imprimir_lista_aluno(lAluno);
-            break;
+            imprimir_arv_curso(arvCurso);
+            printf("\nInforme o codigo do curso: ");
+            scanf(" %[^\n]", busca);
+                
+            noCurso = buscar_curso(arvCurso, busca);
 
+            if (noCurso != NULL)
+                imprimir_alunos_curso(noCurso, lAluno);
+            break;
+        case 9:
+            imprimir_arv_curso(arvCurso);
+            printf("\nInforme o codigo do curso: ");
+            scanf(" %[^\n]", busca);
+                
+            noCurso = buscar_curso(arvCurso, busca);
+            if(noCurso != NULL)
+            {
+                int buscaInt = 0;
+                
+                printf("Informe o periodo: ");
+                while (buscaInt < 1 || buscaInt > noCurso->info.qtd_periodos)
+                scanf(" %d", &buscaInt);
+                
+                buscar_disciplina_periodo(noCurso->info.dis, &buscaInt);
+            }
+            break;
         case 0:
             printf("Saindo...\n");
             break;
