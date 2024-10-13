@@ -25,8 +25,8 @@ int main ()
     do
     {
         printf("\n===== MENU =====");
-        printf("\n1. Cadastrar Curso");
-        printf("\n2. Cadastrar Disciplina");
+        printf("\n1. Cadastrar Curso"); //ok
+        printf("\n2. Cadastrar Disciplina"); //ok
         printf("\n3. Cadastrar Matricula");
         printf("\n4. Cadastrar Aluno");
         printf("\n5. Imprimir Curso");
@@ -94,7 +94,7 @@ int main ()
 
             if (noDis != NULL)
             {
-                imprimir_alunos_curso(noCurso, lAluno); //não está printando e daq pra baixo ta dando erro
+                imprimir_alunos_curso(noCurso, lAluno); //não está printando a partir da segunda vez
                 printf("\nInforme o codigo do aluno: ");
                 scanf(" %[^\n]", busca);
             
@@ -151,7 +151,7 @@ int main ()
         case 6:
             printf("\n- Imprimindo Disciplinas:\n");
             
-            imprimir_arv_curso(arvCurso);   
+            imprimir_arv_curso(arvCurso);
             printf("\nInforme o codigo do curso: ");
             scanf(" %[^\n]", busca);
 
