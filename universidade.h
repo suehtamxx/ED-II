@@ -56,8 +56,8 @@ typedef struct arvore_matricula
 
 typedef struct info_aluno
 {
-    char matricula[7];
     char nome[50];
+    char matricula[7];
     char cod_curso[5];
     arv_matri *arv_matricula;
     arv_notas *notas;
@@ -87,8 +87,7 @@ l_aluno *alocar_no_aluno();
 arv_curso *cadastrar_curso(arv_curso **no);
 arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso);
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina);
-// arv_matri cadastrar_matricula(arv_matri matricula, struct lista_alunos *l_aluno);
-arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula, struct lista_alunos *l_aluno);
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula);
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso);
 
 //Inserir nas árvores e lista
@@ -100,13 +99,13 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no);
 void imprimir_arv_curso(arv_curso *curso);
 void imprimir_arv_dis(arv_dis *raiz);
 void imprimir_lista_aluno(l_aluno *no);
-
+void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina);
 
 //Buscar nós nas árvores e lista
 arv_curso *buscar_curso(arv_curso *no, char *busca);
 arv_dis *buscar_disciplina(arv_dis *no, char *busca);
 l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
-
+void buscar_disciplina_periodo(arv_dis *no, int *busca);
 //Remover nós nas árvores e lista
 
 
