@@ -10,10 +10,10 @@ int main ()
     
     //Criando as árvores e lista
     arv_curso *arvCurso;
-    //arv_dis *arvDis;
+    arv_dis *arvDis;
     l_aluno *lAluno;
     arvCurso = criar_arv_curso(); 
-    //arvDis = criar_arv_dis();
+    arvDis = criar_arv_dis();
     lAluno = criar_lista_aluno();
         
     //Criando os nós
@@ -99,13 +99,15 @@ int main ()
                 scanf(" %[^\n]", busca);
             
                 noAluno = buscar_aluno(lAluno, busca);
-
+                //printf("certo\n");
                 if (noAluno != NULL)
                 {
+                    //printf("certo2\n");
                     noMatri = alocar_no_matricula();
 
                     if (noMatri != NULL)
                     {
+                        //printf("certo3");
                         noMatri = cadastrar_matricula(&noMatri, noDis);
 
                         verificacao = inserir_arv_matricula(&(noAluno->info.arv_matricula), noMatri);
@@ -158,12 +160,25 @@ int main ()
             noCurso = buscar_curso(arvCurso, busca);
             if(noCurso != NULL)
                 imprimir_arv_dis(arvCurso->info.dis);
-
             break;
 
         case 7:
             printf("\n- Imprimindo Alunos:\n");
             imprimir_lista_aluno(lAluno);
+            break;
+         case 8:
+        //é oq falei no whats, faz a busca da disciplina dai passa como parametro pra conseguir usar la dentro da funcao.
+            printf("Cadastrando notas:\n");
+            imprimir_arv_dis(arvDis);
+
+            printf("Informe a disciplina:\n");
+            scanf(" %[^\n]", busca);
+
+            noDis = buscar_disciplina(arvDis, busca);
+            if(noDis != NULL)
+            {
+                
+            }
             break;
         case 0:
                 printf("Saindo...\n");

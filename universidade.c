@@ -155,7 +155,7 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
 }
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina)
 {
-    strcpy(disciplina->info.cod_dis, (*no)->info.cod_dis);
+    strcpy((*no)->info.cod_dis, disciplina->info.cod_dis);
 
     return (*no);
 }
@@ -171,7 +171,20 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 
     return (*no);
 }
+//tentei seguir o caminho das outras funcoes.
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula, struct lista_alunos *l_aluno)
+{
+    printf("Informe a nota do aluno: ");
+    scanf(" %f", &(*notas).info.nota_final);
 
+    printf("Informe o periodo cursado(Ex: 2024.2): ");
+    scanf(" %[^\n]", (*notas).info.semestre);
+    
+    //aqui eu to tentando pegar a o codigo da disciplina e ja alocar nas notas
+    strcpy(matricula.info.cod_dis, (*notas).info.cod_dis);
+
+    return notas;
+}
 //Inserir nas árvores e lista
 int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 {
@@ -254,6 +267,7 @@ void imprimir_arv_curso(arv_curso *raiz)
     }   
 }
 void imprimir_arv_dis(arv_dis *raiz)
+
 {
     if (raiz != NULL)
     {
@@ -282,7 +296,7 @@ void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
 {
     if (no != NULL)
     {
-        if (strcmp(no->info.cod_curso, curso->info.cod_curso) > 0)
+        if (strcmp(no->info.cod_curso, curso->info.cod_curso) == 0)
         {
             printf("Matricula: %s ;", no->info.matricula);
             printf("Nome: %s ;", no->info.nome);
@@ -339,7 +353,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
     {
         if (strcmp(busca, aluno->info.nome) == 0)
             novo_no = aluno;
-    
+
         else 
             novo_no = buscar_aluno(aluno->prox, busca);
     }
