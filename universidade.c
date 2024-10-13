@@ -293,7 +293,7 @@ void imprimir_lista_aluno(l_aluno *no)
 }
 
 void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
-{
+{ 
     if (no != NULL)
     {
         if (strcmp(no->info.cod_curso, curso->info.cod_curso) == 0)
