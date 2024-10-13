@@ -172,7 +172,7 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
     return (*no);
 }
 //tentei seguir o caminho das outras funcoes.
-arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula, struct lista_alunos *l_aluno)
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
 {
     printf("Informe a nota do aluno: ");
     scanf(" %f", &(*notas).info.nota_final);
@@ -224,7 +224,7 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no)
 {
     int inseriu = 1;
 
-    if (matricula == NULL)
+    if (*matricula == NULL)
         *matricula = no;
 
     else if(strcmp(no->info.cod_dis, (*matricula)->info.cod_dis) < 0)
@@ -280,17 +280,18 @@ void imprimir_arv_dis(arv_dis *raiz)
         imprimir_arv_dis(raiz->dir);
     }   
 }
-void imprimir_lista_aluno(l_aluno *no)
-{
-   if (no != NULL)
-   {
-        printf("Matricula: %s ;", no->info.matricula);
-        printf("Nome: %s ;", no->info.nome);
-        printf("Codigo do curso: %s ;", no->info.cod_curso);
-        printf("\n");
-        imprimir_lista_aluno(no->prox);
-   }
-}
+
+// void imprimir_lista_aluno(l_aluno *no)
+// {
+//    if (no != NULL)
+//    {
+//         printf("Matricula: %s ;", no->info.matricula);
+//         printf("Nome: %s ;", no->info.nome);
+//         printf("Codigo do curso: %s ;", no->info.cod_curso);
+//         printf("\n");
+//         imprimir_lista_aluno(no->prox);
+//    }
+// }
 
 void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
 { 
@@ -298,15 +299,48 @@ void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
     {
         if (strcmp(no->info.cod_curso, curso->info.cod_curso) == 0)
         {
-            printf("Matricula: %s ;", no->info.matricula);
             printf("Nome: %s ;", no->info.nome);
+            printf("Matricula: %s ;", no->info.matricula);
             printf("Codigo do curso: %s ;", no->info.cod_curso);
             printf("\n");
-            imprimir_alunos_curso(curso, no->prox);
         }
+            imprimir_alunos_curso(curso, no->prox);
+    }
+}
+void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina)
+{
+    if(no != NULL)
+    {
+        if(strcmp(no->info.arv_matricula->info.cod_dis, disciplina->info.cod_dis) == 0)
+        {
+            printf("Nome: %s ;", no->info.nome);
+            printf("Matricula: %s ;", no->info.matricula);
+            printf("Codigo do curso: %s ;", no->info.cod_curso);
+            printf("\n");
+        }
+        imprimir_alunos_disciplina(no->prox, disciplina);
     }
 }
 
+void imprimir_disciplina_periodo(arv_dis *no)
+{
+    printf("Codigo: %s ;", no->info.cod_dis);
+    printf("Nome: %s ;", no->info.nome);
+    printf("Periodo da disciplina no curso: %d ;", no->info.periodo);
+    printf("Carga Horaria: %d ;", no->info.carga_hr);
+    printf("\n");
+}
+
+void buscar_disciplina_periodo(arv_dis *no, int *busca)
+{
+    if(no != NULL)
+    {
+        buscar_disciplina_periodo(no->esq, busca);
+        if(no->info.periodo == *busca)
+            imprimir_disciplina_periodo(no);
+        buscar_disciplina_periodo(no->dir, busca);
+    }
+}
 //Buscar nós nas árvores e lista
 arv_curso *buscar_curso(arv_curso *no, char *busca)
 {
@@ -351,7 +385,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
 
     if (aluno != NULL)
     {
-        if (strcmp(busca, aluno->info.nome) == 0)
+        if (strcmp(busca, aluno->info.matricula) == 0)
             novo_no = aluno;
 
         else 
