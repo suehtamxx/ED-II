@@ -331,6 +331,11 @@ void imprimir_disciplina_periodo(arv_dis *no)
     printf("\n");
 }
 
+void imprimir_disciplinas_aluno()
+{
+
+}
+
 void buscar_disciplina_periodo(arv_dis *no, int *busca)
 {
     if(no != NULL)
