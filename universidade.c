@@ -224,7 +224,7 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no)
 {
     int inseriu = 1;
 
-    if (matricula == NULL)
+    if (*matricula == NULL)
         *matricula = no;
 
     else if(strcmp(no->info.cod_dis, (*matricula)->info.cod_dis) < 0)
@@ -351,7 +351,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
 
     if (aluno != NULL)
     {
-        if (strcmp(busca, aluno->info.nome) == 0)
+        if (strcmp(busca, aluno->info.matricula) == 0)
             novo_no = aluno;
 
         else 
