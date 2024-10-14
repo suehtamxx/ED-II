@@ -171,7 +171,6 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 
     return (*no);
 }
-//tentei seguir o caminho das outras funcoes.
 arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
 {
     printf("Informe a nota do aluno: ");
@@ -185,6 +184,7 @@ arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
 
     return notas;
 }
+
 //Inserir nas árvores e lista
 int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 {
@@ -281,6 +281,15 @@ void imprimir_arv_dis(arv_dis *raiz)
     }   
 }
 
+void imprimir_disciplina(arv_dis *no)
+{
+    printf("Codigo: %s ;", no->info.cod_dis);
+    printf("Nome: %s ;", no->info.nome);
+    printf("Periodo da disciplina no curso: %d ;", no->info.periodo);
+    printf("Carga Horaria: %d ;", no->info.carga_hr);
+    printf("\n");
+}
+
 // void imprimir_lista_aluno(l_aluno *no)
 // {
 //    if (no != NULL)
@@ -322,28 +331,24 @@ void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina)
     }
 }
 
-void imprimir_disciplina_periodo(arv_dis *no)
-{
-    printf("Codigo: %s ;", no->info.cod_dis);
-    printf("Nome: %s ;", no->info.nome);
-    printf("Periodo da disciplina no curso: %d ;", no->info.periodo);
-    printf("Carga Horaria: %d ;", no->info.carga_hr);
-    printf("\n");
-}
-
-void imprimir_disciplinas_aluno()
-{
-
-}
-
 void buscar_disciplina_periodo(arv_dis *no, int *busca)
 {
     if(no != NULL)
     {
         buscar_disciplina_periodo(no->esq, busca);
         if(no->info.periodo == *busca)
-            imprimir_disciplina_periodo(no);
+            imprimir_disciplina(no);
         buscar_disciplina_periodo(no->dir, busca);
+    }
+}
+void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
+{
+    if(no != NULL)
+    {
+        buscar_disciplina_matricula(no->esq, disciplina);
+        if(strcmp(disciplina->info.cod_dis, no->info.cod_dis) == 0)
+            imprimir_disciplina(no);
+        buscar_disciplina_matricula(no->dir, disciplina);
     }
 }
 //Buscar nós nas árvores e lista
@@ -401,6 +406,79 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca)
 }
 
 //Remover nós nas árvores e lista
+int e_folha_matricula(arv_dis *no)
+{
+    int verifica = 0;
 
+    if (no->dir == NULL && no->esq == NULL)
+        verifica = 1;
+        
+    return verifica;
+}
+arv_dis *so_um_filho_matricula(arv_dis *no)
+{
+    arv_dis *aux;
+
+    if (no->dir == NULL)    
+        aux = no->dir;
+    else if (no->esq == NULL)
+        aux = no->esq;
+    
+    return aux;
+}
+arv_dis *menor_filho_matricula(arv_dis *no)
+{
+    while (no != NULL && no->esq != NULL)
+        no = no->esq
+    
+    return no;
+}
+
+int remover_disciplina(arv_dis **raiz, arv_dis *no)
+{
+    int removeu = 1, verificacao;
+    arv_dis *aux;
+    arv_dis *end_filho, *end_menor_filho;
+
+    if((*raiz) != NULL)
+    {
+        if((*raiz)->info.cod_dis == no->info.cod_dis)
+        {
+            verificacao = e_folha(*raiz);
+            
+            if(verificacao == 1)
+            {
+                aux = *raiz;
+                *raiz = NULL;
+                free(aux);
+            }
+            else 
+                if ((end_filho = so_um_filho(*raiz)) != NULL)
+                {
+                    aux = *raiz;
+                    *raiz = NULL;
+                    free(aux);
+                }
+                else
+                {
+                    end_menor_filho = menor_filho((*raiz)->dir);
+                    aux = *raiz;
+                    (*raiz)->info = end_menor_filho->info;
+                    removeu = remover_disciplina(&(*raiz)->dir, end_menor_filho);
+                }
+        else 
+            if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
+                removeu = remover_disciplina(&((*disciplina)->esq), no);
+        
+            else 
+                if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
+                    removeu = remover_disciplina(&((*disciplina)->dir), no);
+       
+        }
+    }
+    else inseriu = 0;
+    
+    return inseriu;
+}
 
 //Liberar memória
