@@ -106,7 +106,13 @@ arv_curso *buscar_curso(arv_curso *no, char *busca);
 arv_dis *buscar_disciplina(arv_dis *no, char *busca);
 l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
 void buscar_disciplina_periodo(arv_dis *no, int *busca);
+
+
 //Remover nós nas árvores e lista
+int e_folha_matricula(arv_dis *no);
+arv_dis *so_um_filho_matricula(arv_dis *no);
+arv_dis *menor_filho_matricula(arv_dis *no);
+int remover_disciplina(arv_dis **raiz, arv_dis *no);
 
 
 //Liberar memória
