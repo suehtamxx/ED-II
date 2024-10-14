@@ -2,7 +2,7 @@
 #include "universidade.c"
 #include <stdio.h>
 #include <stdlib.h>
-//oi
+
 int main ()
 {
     int op = 0, verificacao;
@@ -34,6 +34,7 @@ int main ()
         printf("\n7. Imprimir Disciplina");
         printf("\n8. Imprimir Aluno");
         printf("\n9. Imprimir Disciplina Por Periodo");
+        printf("\n10. Imprimir Disciplinas de Aluno");
         printf("\n0. Sair\n");
 
         printf("\nEscolha uma opcao: ");
@@ -211,6 +212,30 @@ int main ()
                 
                 buscar_disciplina_periodo(noCurso->info.dis, &buscaInt);
             }
+            break;
+
+        case 10:
+            imprimir_arv_curso(arvCurso);
+            printf("\nInforme o codigo do curso: ");
+            scanf(" %[^\n]", busca);
+                
+            noCurso = buscar_curso(arvCurso, busca);
+            if(noCurso != NULL)
+            {
+                imprimir_alunos_curso(noCurso, lAluno);
+
+                printf("\nInforme a matricula do Aluno: ");
+                scanf(" %[^\n]", busca);
+
+                noAluno = buscar_aluno(lAluno, busca);
+
+                if (noAluno != NULL)
+                {
+                    buscar_disciplina_matricula(noAluno->info.arv_matricula, noCurso->info.dis);
+                }
+                
+            }
+
             break;
         case 0:
             printf("Saindo...\n");
