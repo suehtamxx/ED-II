@@ -180,7 +180,7 @@ arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
     scanf(" %[^\n]", (*notas).info.semestre);
     
     //aqui eu to tentando pegar a o codigo da disciplina e ja alocar nas notas
-    strcpy(matricula.info.cod_dis, (*notas).info.cod_dis);
+    strcpy((*notas).info.cod_dis, matricula.info.cod_dis);
 
     return notas;
 }
@@ -251,8 +251,23 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 
     return inseriu;
 }
+int inserir_nota(arv_notas **notas, arv_notas *no)
+{
+    int inseriu = 1;
 
+    if(*notas == NULL)
+        *notas = no;
 
+    else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) > 0)
+        inseriu = inserir_nota(&((*notas)->dir), no);
+
+    else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) < 0)
+        inseriu = inserir_nota(&((*notas)->esq), no);
+    
+    else inseriu = 0;
+
+    return inseriu;
+}
 //Imprimir as árvores e lista (in-ordem)
 void imprimir_arv_curso(arv_curso *raiz)
 {
@@ -341,7 +356,7 @@ void buscar_disciplina_periodo(arv_dis *no, int *busca)
         buscar_disciplina_periodo(no->dir, busca);
     }
 }
-void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
+arv_matri *buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
 {
     if(no != NULL)
     {
@@ -429,7 +444,7 @@ arv_dis *so_um_filho_matricula(arv_dis *no)
 arv_dis *menor_filho_matricula(arv_dis *no)
 {
     while (no != NULL && no->esq != NULL)
-        no = no->esq
+        no = no->esq;
     
     return no;
 }
@@ -465,20 +480,22 @@ int remover_disciplina(arv_dis **raiz, arv_dis *no)
                     aux = *raiz;
                     (*raiz)->info = end_menor_filho->info;
                     removeu = remover_disciplina(&(*raiz)->dir, end_menor_filho);
-                }
-        else 
-            if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
-                removeu = remover_disciplina(&((*disciplina)->esq), no);
-        
-            else 
-                if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
-                    removeu = remover_disciplina(&((*disciplina)->dir), no);
-       
+                } 
+                else 
+                        if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
+                            removeu = remover_disciplina(&((*disciplina)->esq), no);
+                    
+                        else 
+                            if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
+                                removeu = remover_disciplina(&((*disciplina)->dir), no);
+                
         }
+    
     }
     else inseriu = 0;
     
     return inseriu;
+    
 }
 
 //Liberar memória
