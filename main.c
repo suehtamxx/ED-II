@@ -11,9 +11,13 @@ int main ()
     //Criando as árvores e lista
     arv_curso *arvCurso;
     arv_dis *arvDis;
+    arv_matri *arvMatri;
+    arv_notas *arvNotas;
     l_aluno *lAluno;
     arvCurso = criar_arv_curso(); 
     arvDis = criar_arv_dis();
+    arvMatri = criar_arv_matricula();
+    arvNotas = criar_arv_notas();
     lAluno = criar_lista_aluno();
         
     //Criando os nós
@@ -164,9 +168,18 @@ int main ()
                     noDis = buscar_disciplina(arvDis, busca);
                     if(noDis != NULL)
                     {
-                        
-                    }
-                }
+                        noMatri = buscar_disciplina_matricula(arvMatri, noDis->info.cod_dis);
+                        if(noMatri != NULL)
+                        {
+                            arv_notas *novaNota;
+                            novaNota = cadastrar_notas(NULL, *noMatri);
+
+                            arvMatri = remover_matricula(arvMatri, noDis->info.cod_dis);
+
+                            arvNotas = inserir_nota(arvNotas, novaNota);
+                        }else printf("Disciplina nao esta na arvore de matricula!");
+                    }else printf("Disciplina nao encontrada!");
+                }else printf("Curso nao encontrado!");
                 break;
 
          case 6:
