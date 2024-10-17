@@ -87,7 +87,7 @@ l_aluno *alocar_no_aluno();
 arv_curso *cadastrar_curso(arv_curso **no);
 arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso);
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina);
-arv_notas *cadastrar_notas(arv_notas **notas, arv_matri matricula);
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula);
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso);
 
 //Inserir nas árvores e lista
@@ -107,7 +107,7 @@ arv_curso *buscar_curso(arv_curso *no, char *busca);
 arv_dis *buscar_disciplina(arv_dis *no, char *busca);
 l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
 void buscar_disciplina_periodo(arv_dis *no, int *busca);
-arv_matri *buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina);
+void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina);
 arv_matri *buscar_matricula(arv_matri *no, char *busca);
 
 //Remover nós nas árvores e lista
