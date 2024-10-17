@@ -180,7 +180,9 @@ int main ()
                             if(noMatri != NULL)
                             {
                                 arv_notas *novaNota;
-                                novaNota = cadastrar_notas(NULL, *noMatri);
+                                novaNota = alocar_no_notas();
+
+                                novaNota = cadastrar_notas(novaNota, *noMatri);
 
                                 verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis);
                                 if(verificacao == 1) printf("Disciplina removida!");
