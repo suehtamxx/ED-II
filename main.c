@@ -11,9 +11,13 @@ int main ()
     //Criando as árvores e lista
     arv_curso *arvCurso;
     arv_dis *arvDis;
+    arv_matri *arvMatri;
+    arv_notas *arvNotas;
     l_aluno *lAluno;
     arvCurso = criar_arv_curso(); 
     arvDis = criar_arv_dis();
+    arvMatri = criar_arv_matricula();
+    arvNotas = criar_arv_notas();
     lAluno = criar_lista_aluno();
         
     //Criando os nós
@@ -156,17 +160,42 @@ int main ()
                 noCurso = buscar_curso(arvCurso, busca);
                 if(noCurso != NULL)
                 {
-                    imprimir_arv_dis(arvDis);
+                    imprimir_arv_dis(noCurso->info.dis);
 
-                    printf("Informe a disciplina:\n");
+                    printf("Informe o codigo da disciplina:\n");
                     scanf(" %[^\n]", busca);
-
-                    noDis = buscar_disciplina(arvDis, busca);
+                    
+                    noDis = buscar_disciplina(noCurso->info.dis, busca);
                     if(noDis != NULL)
                     {
-                        
-                    }
-                }
+                        imprimir_alunos_disciplina(lAluno, noDis);
+                        printf("Informe a matricula do aluno: ");
+                        scanf(" %[^\n]", busca);
+
+                        noAluno = buscar_aluno(lAluno, busca);
+                        if(noAluno != NULL)
+                        {
+                            noMatri = buscar_matricula(noAluno->info.arv_matricula, noDis->info.cod_dis);
+
+                            if(noMatri != NULL)
+                            {
+                                arv_notas *novaNota;
+                                novaNota = alocar_no_notas();
+
+                                novaNota = cadastrar_notas(novaNota, *noMatri);
+
+                                verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis);
+                                if(verificacao == 1) printf("Disciplina removida!");
+                                else printf("Erro!!");
+
+                                verificacao = inserir_nota(&lAluno->info.arv_notas, novaNota);
+                                if(verificacao == 1) printf("Nota inserida!");
+                                else printf("Erro ao inserir nota!");
+                            }
+
+                        }else printf("Disciplina nao esta na arvore de matricula!");
+                    }else printf("Disciplina nao encontrada!");
+                }else printf("Curso nao encontrado!");
                 break;
 
          case 6:
