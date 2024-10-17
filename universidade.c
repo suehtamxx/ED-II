@@ -171,17 +171,17 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 
     return (*no);
 }
-arv_notas *cadastrar_notas(arv_notas **notas, arv_matri matricula)
+arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
 {
     printf("Informe a nota do aluno: ");
-    scanf(" %f", &(*notas)->info.nota_final);
+    scanf(" %f", &(*notas).info.nota_final);
 
     printf("Informe o periodo cursado(Ex: 2024.2): ");
-    scanf(" %[^\n]", (*notas)->info.semestre);
+    scanf(" %[^\n]", (*notas).info.semestre);
     
-    strcpy((*notas)->info.cod_dis, matricula.info.cod_dis);
+    strcpy((*notas).info.cod_dis, matricula.info.cod_dis);
 
-    return *notas;
+    return notas;
 }
 
 //Inserir nas árvores e lista
@@ -305,6 +305,10 @@ void imprimir_disciplina(arv_dis *no)
     printf("\n");
 }
 
+void imprimir_nota()
+{
+
+}
 // void imprimir_lista_aluno(l_aluno *no)
 // {
 //    if (no != NULL)
@@ -356,7 +360,7 @@ void buscar_disciplina_periodo(arv_dis *no, int *busca)
         buscar_disciplina_periodo(no->dir, busca);
     }
 }
-arv_matri *buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
+void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
 {
     if(no != NULL)
     {
@@ -509,7 +513,7 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
     
     
     return removeu;
-    }
+}
     
 
 
