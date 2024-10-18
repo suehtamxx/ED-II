@@ -102,6 +102,8 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
 int inserir_arv_dis(arv_dis **disciplina, arv_dis *no);
 int inserir_arv_curso(arv_curso **curso, arv_curso *no);
 int inserir_lista_aluno(l_aluno **aluno, l_aluno *no);
+int inserir_nota(arv_notas **notas, arv_notas *no);
+int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
 
 //Imprimir o nó da árvore e lista
 void imprimir_nota(arv_notas *no);
