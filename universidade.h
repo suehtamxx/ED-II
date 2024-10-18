@@ -49,7 +49,7 @@ typedef struct info_curso
     char nome[40];
     char cod_curso[5];
     int qtd_periodos;
-    arv_dis *dis;
+    arv_dis *arv_dis;
 }Curso;
 
 typedef struct arvore_curso
@@ -78,14 +78,14 @@ typedef struct lista_alunos
 //Criar árvores e lista
 arv_notas *criar_arv_notas();
 arv_matri *criar_arv_matricula();
-arv_dis *criar_arv_dis();
+arv_dis *criar_arv_disciplina();
 arv_curso *criar_arv_curso();
 l_aluno * criar_lista_aluno();
 
 //Criar os nós das árvores e lista
 arv_notas *alocar_no_notas();
 arv_matri *alocar_no_matricula();
-arv_dis *alocar_no_dis();
+arv_dis *alocar_no_disciplina();
 arv_curso *alocar_no_curso();
 l_aluno *alocar_no_aluno();
 
@@ -113,10 +113,12 @@ void imprimir_curso(arv_curso *no);
 void imprimir_aluno(l_aluno *no);
 
 //Imprimir as árvores e lista (in-ordem)
-void imprimir_arv_curso(arv_curso *no);
 void imprimir_arv_dis(arv_dis *no);
+void imprimir_arv_curso(arv_curso *no);
 void imprimir_lista_aluno(l_aluno *no);
+
 void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina);
+void imprimir_alunos_curso(arv_curso *curso, l_aluno *no);
 
 //Buscar nós nas árvores e lista
 arv_matri *buscar_matricula(arv_matri *no, char *busca);
@@ -139,7 +141,7 @@ arv_matri *menor_filho_matricula(arv_matri *no);
 
 //Remover nós nas árvores e lista
 int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no);
-int remover_disciplina(arv_dis **raiz, arv_dis *no);
+//int remover_disciplina(arv_dis **raiz, arv_dis *no);
 
 
 //Liberar memória
