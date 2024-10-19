@@ -153,10 +153,8 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
     
     printf("Informe a carga horaria da disciplina: ");
     while(ch < 30 || ch > 90 || ch % 15 != 0)
-    {
-        printf("Tente novamente: ");
         scanf(" %d", &ch);
-    }
+    
 
     (*no)->info.carga_hr = ch;
 
@@ -233,10 +231,10 @@ int inserir_arv_disciplina(arv_dis **disciplina, arv_dis *no)
         *disciplina = no;
 
     else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
-        inseriu = inserir_arv_dis(&((*disciplina)->esq), no);
+        inseriu = inserir_arv_disciplina(&((*disciplina)->esq), no);
         
         else if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
-            inseriu = inserir_arv_dis(&((*disciplina)->dir), no);
+            inseriu = inserir_arv_disciplina(&((*disciplina)->dir), no);
                 
             else inseriu = 0;
         
@@ -261,43 +259,60 @@ int inserir_arv_curso(arv_curso **curso, arv_curso *no)
 }
 int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 {
-    int inseriu = 1;
+    int inseriu = 0;
 
-    if(*aluno == NULL) 
+    // Verifica se a lista está vazia ou se o novo aluno deve ser o primeiro
+    if (*aluno == NULL || strcmp(no->info.nome, (*aluno)->info.nome) < 0) 
+    {
+        no->prox = *aluno;
         *aluno = no;
+        inseriu = 1;
+    }
 
-    else if(strcmp((*aluno)->info.nome, no->info.nome) < 0)
-        inseriu = inserir_lista_aluno(&((*aluno)->prox), no);
+    // Percorre a lista para encontrar a posição correta para o novo aluno
+    l_aluno *atual = *aluno;
+    while (atual->prox != NULL && strcmp(no->info.nome, atual->prox->info.nome) > 0) 
+    {
+        atual = atual->prox; // Move para o próximo aluno
+    }
 
-        else inseriu = 0;
+    // Insere o novo nó na posição correta
+    no->prox = atual->prox;
+    atual->prox = no;
+    inseriu = 1;
 
-    return inseriu;
+    return inseriu; // Retorna 1 se a inserção foi bem-sucedida
 }
 //------------------------------------------------------------------------------
 
 //Imprimir o nó da árvore e lista
-void imprimir_nota(arv_notas *no);
-void imprimir_matricula(arv_matri *no);
+void imprimir_nota(arv_notas *no)
+{
+    printf("Semestre: %s | ", no->info.semestre);
+    printf("Nota Final: %f ", no->info.nota_final);
+    printf("\n");
+}
+//void imprimir_matricula(arv_matri *no);
 void imprimir_disciplina(arv_dis *no)
 {
-    printf("Codigo: %s ;", no->info.cod_dis);
-    printf("Nome: %s ;", no->info.nome);
-    printf("Periodo da disciplina no curso: %d ;", no->info.periodo);
-    printf("Carga Horaria: %d ;", no->info.carga_hr);
+    printf("Codigo: %s | ", no->info.cod_dis);
+    printf("Nome: %s | ", no->info.nome);
+    printf("Periodo da disciplina no curso: %d | ", no->info.periodo);
+    printf("Carga Horaria: %d ", no->info.carga_hr);
     printf("\n");
 }
 void imprimir_curso(arv_curso *no)
 {
-    printf("Codigo: %s ;", no->info.cod_curso);
-    printf("Nome: %s ;", no->info.nome);
-    printf("Quantidade de periodos: %d ;", no->info.qtd_periodos);
+    printf("Codigo: %s | ", no->info.cod_curso);
+    printf("Nome: %s | ", no->info.nome);
+    printf("Quantidade de periodos: %d", no->info.qtd_periodos);
     printf("\n");
 }
 void imprimir_aluno(l_aluno *no)
 {
-    printf("Nome: %s ;", no->info.nome);
-    printf("Matricula: %s ;", no->info.matricula);
-    printf("Codigo do curso: %s ;", no->info.cod_curso);
+    printf("Nome: %s | ", no->info.nome);
+    printf("Matricula: %s | ", no->info.matricula);
+    printf("Codigo do curso: %s ", no->info.cod_curso);
     printf("\n");
 }
 //------------------------------------------------------------------------------
@@ -440,6 +455,18 @@ void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
 
     }
 }
+void buscar_notas_periodo(arv_notas *no, char *busca)
+{
+    if(no != NULL)
+    {
+        buscar_notas_periodo(no->esq, busca);
+
+        if(strcmp(busca, no->info.semestre) == 0)
+            imprimir_nota(no);
+
+        buscar_notas_periodo(no->dir, busca);
+    }
+}
 //------------------------------------------------------------------------------
 
 //Verificar se o nó é folha
@@ -452,6 +479,7 @@ int e_folha_matricula(arv_matri *no)
         
     return verifica;
 }
+//------------------------------------------------------------------------------
 
 //Verificar se o nó tem um filho
 arv_matri *so_um_filho_matricula(arv_matri *no)
@@ -465,6 +493,7 @@ arv_matri *so_um_filho_matricula(arv_matri *no)
     
     return aux;
 }
+//------------------------------------------------------------------------------
 
 //Buscar o menor filho
 arv_matri *menor_filho_matricula(arv_matri *no)
@@ -474,6 +503,7 @@ arv_matri *menor_filho_matricula(arv_matri *no)
     
     return no;
 }
+//------------------------------------------------------------------------------
 
 //Remover nós nas árvores e lista
 int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
@@ -518,7 +548,8 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
     
     return removeu;
 }
-    
+//------------------------------------------------------------------------------
+   
 
 
 // int remover_disciplina(arv_dis **raiz, arv_dis *no)
@@ -571,3 +602,53 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
 // }
 
 //Liberar memória
+void liberar_arv_notas(arv_notas *raiz) 
+{
+    if (raiz != NULL) 
+    {
+        liberar_arv_notas(raiz->esq);
+        liberar_arv_notas(raiz->dir);
+        free(raiz);
+    }
+}
+void liberar_arv_matricula(arv_matri *raiz) 
+{
+    if (raiz != NULL) 
+    {
+        liberar_arv_matricula(raiz->esq);
+        liberar_arv_matricula(raiz->dir);
+        free(raiz);
+    }
+}
+void liberar_arv_disciplina(arv_dis *raiz) 
+{
+    if (raiz != NULL) 
+    {
+        liberar_arv_disciplina(raiz->esq);
+        liberar_arv_disciplina(raiz->dir);
+        free(raiz);
+    }
+}
+void liberar_arv_curso(arv_curso *raiz) 
+{
+    if (raiz != NULL) 
+    {
+        liberar_arv_curso(raiz->esq);
+        liberar_arv_curso(raiz->dir);
+        liberar_arv_disciplina(raiz->info.arv_dis);
+        free(raiz);
+    }
+}
+void liberar_lista_alunos(l_aluno *cabeca) 
+{
+    l_aluno *atual = cabeca;
+    l_aluno *proximo;
+
+    while (atual != NULL) {
+        proximo = atual->prox;
+        liberar_arv_matricula(atual->info.arv_matricula);
+        liberar_arv_notas(atual->info.arv_notas);
+        free(atual);
+        atual = proximo;
+    }
+}
