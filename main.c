@@ -301,10 +301,11 @@ int main ()
                 noAluno = buscar_aluno(lAluno, busca); //Buscando o aluno escolhido
                 if (noAluno != NULL)
                 {
-                    printf("\nInforme o semestre: ");
-                    scanf(" %[^\n]", busca);
+                    int buscaInt;
+                    printf("\nInforme o periodo: ");
+                    scanf(" %d", &buscaInt);
 
-                    buscar_notas_periodo(noAluno->info.arv_notas, busca); 
+                    buscar_disciplina_periodo(noDis, &buscaInt); 
                 }
                     
             }
