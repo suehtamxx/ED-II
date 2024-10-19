@@ -62,7 +62,7 @@ typedef struct arvore_curso
 typedef struct info_aluno
 {
     char nome[50];
-    char matricula[7];
+    char matricula[10];
     char cod_curso[5];
     arv_matri *arv_matricula;
     arv_notas *arv_notas;
@@ -99,7 +99,7 @@ l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso);
 //Inserir nas árvores e lista
 int inserir_arv_notas(arv_notas **notas, arv_notas *no);
 int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
-int inserir_arv_dis(arv_dis **disciplina, arv_dis *no);
+int inserir_arv_disciplina(arv_dis **disciplina, arv_dis *no);
 int inserir_arv_curso(arv_curso **curso, arv_curso *no);
 int inserir_lista_aluno(l_aluno **aluno, l_aluno *no);
 int inserir_nota(arv_notas **notas, arv_notas *no);
@@ -107,13 +107,13 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
 
 //Imprimir o nó da árvore e lista
 void imprimir_nota(arv_notas *no);
-void imprimir_matricula(arv_matri *no);
+//void imprimir_matricula(arv_matri *no);
 void imprimir_disciplina(arv_dis *no);
 void imprimir_curso(arv_curso *no);
 void imprimir_aluno(l_aluno *no);
 
 //Imprimir as árvores e lista (in-ordem)
-void imprimir_arv_dis(arv_dis *no);
+void imprimir_arv_disciplina(arv_dis *no);
 void imprimir_arv_curso(arv_curso *no);
 void imprimir_lista_aluno(l_aluno *no);
 
@@ -128,6 +128,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
 
 void buscar_disciplina_periodo(arv_dis *no, int *busca);
 void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina);
+void buscar_notas_periodo(arv_notas *no, char *busca);
 
 //Verificar se o nó é folha
 int e_folha_matricula(arv_matri *no);
@@ -145,6 +146,10 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no);
 
 
 //Liberar memória
-
+void liberar_arv_notas(arv_notas *raiz);
+void liberar_arv_matricula(arv_matri *raiz);
+void liberar_arv_disciplina(arv_dis *raiz);
+void liberar_arv_curso(arv_curso *raiz);
+void liberar_lista_alunos(l_aluno *cabeca);
 
 #endif
