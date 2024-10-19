@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+//oi
 // 0 é erro, 1 é que deu certo
 
 //Criar árvores e lista
@@ -278,7 +278,6 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
         no->prox = atual->prox;
         atual->prox = no;
         inseriu = 1;
-        
         }
     // Insere o novo nó na posição correta
 
