@@ -102,7 +102,7 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
 int inserir_arv_disciplina(arv_dis **disciplina, arv_dis *no);
 int inserir_arv_curso(arv_curso **curso, arv_curso *no);
 int inserir_lista_aluno(l_aluno **aluno, l_aluno *no);
-int inserir_nota(arv_notas **notas, arv_notas *no);
+//int inserir_nota(arv_notas **notas, arv_notas *no);
 int inserir_arv_matricula(arv_matri **matricula, arv_matri *no);
 
 //Imprimir o nó da árvore e lista
@@ -115,7 +115,7 @@ void imprimir_aluno(l_aluno *no);
 //Imprimir as árvores e lista (in-ordem)
 void imprimir_arv_disciplina(arv_dis *no);
 void imprimir_arv_curso(arv_curso *no);
-void imprimir_lista_aluno(l_aluno *no);
+//void imprimir_lista_aluno(l_aluno *no);
 
 void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina);
 void imprimir_alunos_curso(arv_curso *curso, l_aluno *no);
