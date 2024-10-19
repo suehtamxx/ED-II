@@ -131,8 +131,7 @@ arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
 }
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina)
 {
-    if (*no != NULL) 
-        strcpy((*no)->info.cod_dis, disciplina->info.cod_dis);
+    strcpy((*no)->info.cod_dis, disciplina->info.cod_dis);
 
     return (*no);
 }
@@ -177,10 +176,10 @@ arv_curso *cadastrar_curso(arv_curso **no)
 }
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 {
-    printf("Informe o nome do aluno: ");
+    printf("Informe o nome do aluno:\n");
     scanf(" %[^\n]", (*no)->info.nome);
 
-    printf("Informe a matricula: ");
+    printf("Informe a matricula:\n");
     scanf(" %s", (*no)->info.matricula);
 
     strcpy((*no)->info.cod_curso, curso->info.cod_curso);
@@ -200,10 +199,10 @@ int inserir_arv_notas(arv_notas **notas, arv_notas *no)
     else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) > 0)
         inseriu = inserir_arv_notas(&((*notas)->dir), no);
 
-    else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) < 0)
-        inseriu = inserir_arv_notas(&((*notas)->esq), no);
-
-    else inseriu = 0;
+        else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) < 0)
+            inseriu = inserir_arv_notas(&((*notas)->esq), no);
+    
+            else inseriu = 0;
 
     return inseriu;
 }
@@ -220,7 +219,7 @@ int inserir_arv_matricula(arv_matri **matricula, arv_matri *no)
     else if (strcmp(no->info.cod_dis, (*matricula)->info.cod_dis) > 0)
         inseriu = inserir_arv_matricula(&((*matricula)->dir), no);
 
-    else inseriu = 0;
+        else inseriu = 0;
     
     return inseriu;
 }
@@ -262,14 +261,14 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 {
     int inseriu = 0;
 
+    // Verifica se a lista está vazia ou se o novo aluno deve ser o primeiro
     if (*aluno == NULL || strcmp(no->info.nome, (*aluno)->info.nome) < 0) 
     {
         no->prox = *aluno;
         *aluno = no;
         inseriu = 1;
-    } 
-    else
-    {
+    } else{
+        // Percorre a lista para encontrar a posição correta para o novo aluno
         l_aluno *atual = *aluno;
         while (atual->prox != NULL && strcmp(no->info.nome, atual->prox->info.nome) > 0) 
         {
@@ -279,9 +278,10 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
         no->prox = atual->prox;
         atual->prox = no;
         inseriu = 1;
-    }
+        }
+    // Insere o novo nó na posição correta
 
-    return inseriu; 
+    return inseriu; // Retorna 1 se a inserção foi bem-sucedida
 }
 //------------------------------------------------------------------------------
 
@@ -339,13 +339,16 @@ void imprimir_arv_curso(arv_curso *raiz)
 
 void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina)
 {
+    printf("Dentro de imprimir alunos disciplinas\n");
     if(no != NULL)
     {
+        printf("Matricula encontrada para o aluno: %s\n", no->info.nome);
+        
         if(strcmp(no->info.arv_matricula->info.cod_dis, disciplina->info.cod_dis) == 0)
             imprimir_aluno(no);
         
         imprimir_alunos_disciplina(no->prox, disciplina);
-    }
+    }else printf("Matricula nao encontrada para o aluno: %s\n", no->info.nome);
 }
 void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
 { 
@@ -357,6 +360,7 @@ void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
         imprimir_alunos_curso(curso, no->prox);
     }
 }
+
 //------------------------------------------------------------------------------
 
 //Buscar nós nas árvores e lista
@@ -460,7 +464,7 @@ void buscar_notas_periodo(arv_notas *no, char *busca)
     if(no != NULL)
     {
         buscar_notas_periodo(no->esq, busca);
-
+        printf("Comparando %s com %s\n", busca, no->info.semestre);
         if(strcmp(busca, no->info.semestre) == 0)
             imprimir_nota(no);
 
