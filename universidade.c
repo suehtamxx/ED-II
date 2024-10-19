@@ -176,11 +176,11 @@ arv_curso *cadastrar_curso(arv_curso **no)
 }
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 {
-    printf("Informe o nome do aluno: ");
+    printf("Informe o nome do aluno:\n");
     scanf(" %[^\n]", (*no)->info.nome);
 
-    printf("Informe a matricula: ");
-    scanf(" %[^\n]", (*no)->info.matricula);
+    printf("Informe a matricula:\n");
+    scanf(" %s", (*no)->info.matricula);
 
     strcpy((*no)->info.cod_curso, curso->info.cod_curso);
 
@@ -267,19 +267,20 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
         no->prox = *aluno;
         *aluno = no;
         inseriu = 1;
-    }
+    } else{
+        // Percorre a lista para encontrar a posição correta para o novo aluno
+        l_aluno *atual = *aluno;
+        while (atual->prox != NULL && strcmp(no->info.nome, atual->prox->info.nome) > 0) 
+        {
+            atual = atual->prox; // Move para o próximo aluno
+        }
 
-    // Percorre a lista para encontrar a posição correta para o novo aluno
-    l_aluno *atual = *aluno;
-    while (atual->prox != NULL && strcmp(no->info.nome, atual->prox->info.nome) > 0) 
-    {
-        atual = atual->prox; // Move para o próximo aluno
-    }
-
+        no->prox = atual->prox;
+        atual->prox = no;
+        inseriu = 1;
+        
+        }
     // Insere o novo nó na posição correta
-    no->prox = atual->prox;
-    atual->prox = no;
-    inseriu = 1;
 
     return inseriu; // Retorna 1 se a inserção foi bem-sucedida
 }
