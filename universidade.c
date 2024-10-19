@@ -261,7 +261,6 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 {
     int inseriu = 0;
 
-    // Verifica se a lista está vazia ou se o novo aluno deve ser o primeiro
     if (*aluno == NULL || strcmp(no->info.nome, (*aluno)->info.nome) < 0) 
     {
         no->prox = *aluno;
@@ -269,19 +268,18 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
         inseriu = 1;
     }
 
-    // Percorre a lista para encontrar a posição correta para o novo aluno
-    l_aluno *atual = *aluno;
+    l_aluno *atual;
+    atual = *aluno;
     while (atual->prox != NULL && strcmp(no->info.nome, atual->prox->info.nome) > 0) 
     {
-        atual = atual->prox; // Move para o próximo aluno
+        atual = atual->prox; 
     }
 
-    // Insere o novo nó na posição correta
     no->prox = atual->prox;
     atual->prox = no;
     inseriu = 1;
 
-    return inseriu; // Retorna 1 se a inserção foi bem-sucedida
+    return inseriu; 
 }
 //------------------------------------------------------------------------------
 
