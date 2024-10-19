@@ -10,14 +10,14 @@ int main ()
     
     //Criando as árvores e lista
     arv_curso *arvCurso;
-    // arv_dis *arvDis;
-    // arv_matri *arvMatri;
-    // arv_notas *arvNotas;
+    arv_dis *arvDis;
+    arv_matri *arvMatri;
+    arv_notas *arvNotas;
     l_aluno *lAluno;
     arvCurso = criar_arv_curso(); 
-    // arvDis = criar_arv_disciplina();
-    // arvMatri = criar_arv_matricula();
-    // arvNotas = criar_arv_notas();
+    arvDis = criar_arv_disciplina();
+    arvMatri = criar_arv_matricula();
+    arvNotas = criar_arv_notas();
     lAluno = criar_lista_aluno();
         
     //Criando os nós
@@ -185,7 +185,7 @@ int main ()
                 if(noDis != NULL)
                 {
                     printf("\n- Imprimindo alunos do curso:\n");
-                    imprimir_alunos_disciplina(lAluno, noDis);
+                    imprimir_alunos_disciplina(lAluno, noCurso->info.arv_dis);
                     printf("Informe a matricula do aluno: ");
                     scanf(" %[^\n]", busca);
 
@@ -197,16 +197,18 @@ int main ()
                         {
                             arv_notas *novaNota;
                             novaNota = alocar_no_notas(); //Criando um nó nulo
+                            if(novaNota != NULL)
+                            {
+                                novaNota = cadastrar_notas(novaNota, *noMatri); //Mandando o nó nulo e recebendo ele preenchido 
 
-                            novaNota = cadastrar_notas(novaNota, *noMatri); //Mandando o nó nulo e recebendo ele preenchido 
+                                verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis); //Removendo o nó da árvore
+                                if(verificacao == 1) printf("\nDisciplina removida com sucesso!\n");
+                                else printf("Erro ao remover disciplina!\n");
 
-                            verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis); //Removendo o nó da árvore
-                            if(verificacao == 1) printf("\nDisciplina removida com sucesso!\n");
-                            else printf("Erro ao remover disciplina!\n");
-
-                            verificacao = inserir_arv_notas(&lAluno->info.arv_notas, novaNota); //Inserindo na árvore o nó preenchido
-                            if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
-                            else printf("\nErro ao cadastrar nota!\n");
+                                verificacao = inserir_arv_notas(&lAluno->info.arv_notas, novaNota); //Inserindo na árvore o nó preenchido
+                                if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
+                                else printf("\nErro ao cadastrar nota!\n");
+                            }
                         }
                         else printf("\nMatricula nao encontrada!\n");
                     }
@@ -301,11 +303,7 @@ int main ()
                 noAluno = buscar_aluno(lAluno, busca); //Buscando o aluno escolhido
                 if (noAluno != NULL)
                 {
-                    int buscaInt;
-                    printf("\nInforme o periodo: ");
-                    scanf(" %d", &buscaInt);
-
-                    buscar_disciplina_periodo(noDis, &buscaInt); 
+                    buscar_disciplina_matricula(noAluno->info.arv_matricula, noCurso->info.arv_dis);
                 }
                     
             }
@@ -314,6 +312,7 @@ int main ()
             break;
 
         case 11:
+            char buscaSemestre[6];
             printf("\n===== IMPRIMINDO NOTAS DO ALUNO =====\n");
             
             printf("\n- Imprimindo cursos disponiveis:\n");
@@ -333,8 +332,10 @@ int main ()
                 if (noAluno != NULL)
                 {
                     printf("\nInforme o semestre: ");
-                    scanf(" %[^\n]", busca);
-                    buscar_notas_periodo(noAluno->info.arv_notas, busca);
+                    scanf(" %[^\n]", buscaSemestre);
+
+                    buscar_notas_periodo(noAluno->info.arv_notas, buscaSemestre);
+                    
                 }
                 else printf("\nAluno nao encontrado!\n");
             } 
