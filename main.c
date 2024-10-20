@@ -328,7 +328,7 @@ int main ()
                 noAluno = buscar_aluno(lAluno, busca);
                 if (noAluno != NULL)
                 {
-                    char buscaSemestre[6];
+                    char buscaSemestre[10];
                     printf("\nInforme o semestre: ");
                     scanf(" %[^\n]", buscaSemestre);
 
