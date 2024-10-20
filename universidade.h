@@ -6,7 +6,7 @@
 typedef struct info_notas
 {
     char cod_dis[3];
-    char semestre[6];
+    char semestre[10];
     float nota_final;
 }Notas;
 
