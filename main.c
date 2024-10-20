@@ -195,19 +195,20 @@ int main ()
                         noMatri = buscar_matricula(noAluno->info.arv_matricula, noDis->info.cod_dis); //Buscando a matricula
                         if(noMatri != NULL)
                         {
-                            arv_notas *novaNota;
-                            novaNota = alocar_no_notas(); //Criando um nó nulo
-                            if(novaNota != NULL)
+                            arv_notas *noNota;
+                            noNota = alocar_no_notas(); //Criando um nó nulo
+                            if(noNota != NULL)
                             {
-                                novaNota = cadastrar_notas(novaNota, *noMatri); //Mandando o nó nulo e recebendo ele preenchido 
+                                noNota = cadastrar_notas(&noNota, noMatri); //Mandando o nó nulo e recebendo ele preenchido 
 
+                                verificacao = inserir_arv_notas(&lAluno->info.arv_notas, noNota); //Inserindo na árvore o nó preenchido
+                                if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
+                                else printf("\nErro ao cadastrar nota!\n");
+                                
                                 verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis); //Removendo o nó da árvore
                                 if(verificacao == 1) printf("\nDisciplina removida com sucesso!\n");
                                 else printf("Erro ao remover disciplina!\n");
 
-                                verificacao = inserir_arv_notas(&lAluno->info.arv_notas, novaNota); //Inserindo na árvore o nó preenchido
-                                if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
-                                else printf("\nErro ao cadastrar nota!\n");
                             }
                         }
                         else printf("\nMatricula nao encontrada!\n");
@@ -302,17 +303,13 @@ int main ()
 
                 noAluno = buscar_aluno(lAluno, busca); //Buscando o aluno escolhido
                 if (noAluno != NULL)
-                {
                     buscar_disciplina_matricula(noAluno->info.arv_matricula, noCurso->info.arv_dis);
-                }
-                    
             }
             else printf("\nCurso nao encontrado!\n");
 
             break;
 
         case 11:
-            char buscaSemestre[6];
             printf("\n===== IMPRIMINDO NOTAS DO ALUNO =====\n");
             
             printf("\n- Imprimindo cursos disponiveis:\n");
@@ -331,6 +328,7 @@ int main ()
                 noAluno = buscar_aluno(lAluno, busca);
                 if (noAluno != NULL)
                 {
+                    char buscaSemestre[6];
                     printf("\nInforme o semestre: ");
                     scanf(" %[^\n]", buscaSemestre);
 
