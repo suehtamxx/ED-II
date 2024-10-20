@@ -40,7 +40,8 @@ int main ()
         printf("\n8. Imprimir Aluno");
         printf("\n9. Imprimir Disciplina Por Periodo");
         printf("\n10. Imprimir Disciplinas de Aluno");
-        printf("\n11. Imprimir Notas de Aluno");
+        printf("\n11. Imprimir Notas de um Periodo de Aluno");
+        printf("\n12. Imprimir Notas de uma Disciplina de Aluno");
         printf("\n0. Sair\n");
 
         printf("\nEscolha uma opcao: ");
@@ -314,7 +315,7 @@ int main ()
             break;
 
         case 11:
-            printf("\n===== IMPRIMINDO NOTAS DO ALUNO =====\n");
+            printf("\n===== IMPRIMINDO NOTAS DE PERIODO DE ALUNO =====\n");
             
             printf("\n- Imprimindo cursos disponiveis:\n");
             imprimir_arv_curso(arvCurso);
@@ -343,6 +344,45 @@ int main ()
             } 
             else printf("\nCurso nao encontrado!\n");
 
+            break;
+
+        case 12:
+            printf("\n===== IMPRIMINDO NOTA DE DISCIPLINA DE ALUNO =====\n");
+            
+            printf("\n- Imprimindo cursos disponiveis:\n");
+            imprimir_alunos_curso(noCurso, lAluno);
+            printf("\nInforme o codigo do curso: ");
+            scanf(" %[^\n]", busca);
+            while(getchar() != '\n');
+
+            noCurso = buscar_curso(arvCurso, busca); //Buscando o curso escolhido
+            if(noCurso != NULL)
+            {
+                printf("\n- Imprimindo disciplinas disponiveis:\n");
+                imprimir_arv_disciplina(noCurso->info.arv_dis);
+                printf("\nInforme o codigo da disciplina: ");
+                scanf(" %[^\n]", busca);
+                while(getchar() != '\n');
+                
+                noDis = buscar_disciplina(noCurso->info.arv_dis, busca); //Buscando a disciplina escolhido
+                if(noDis != NULL)
+                {
+                    printf("\n- Imprimindo alunos do curso:\n");
+                    imprimir_alunos_curso());
+                    printf("Informe a matricula do aluno: ");
+                    scanf(" %[^\n]", busca);
+                    while(getchar() != '\n');
+
+                    noAluno = buscar_aluno(lAluno, busca); //Buscando a aluno escolhido
+                    if(noAluno != NULL)
+                        buscar_notas_disciplina(noAluno->info.arv_notas, noDis);
+                    
+                    else printf("\nAluno nao encontrado!\n");
+                }
+                else printf("\nDisciplina nao encontrada!\n");
+            }
+            else printf("\nCurso nao encontrado!\n");
+            
             break;
 
         case 0:
