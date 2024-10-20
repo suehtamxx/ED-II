@@ -172,7 +172,8 @@ int main ()
             imprimir_arv_curso(arvCurso);
             printf("\nInforme o codigo do curso: ");
             scanf(" %[^\n]", busca);
-            
+            while(getchar() != '\n');
+
             noCurso = buscar_curso(arvCurso, busca); //Buscando o curso escolhido
             if(noCurso != NULL)
             {
@@ -180,6 +181,7 @@ int main ()
                 imprimir_arv_disciplina(noCurso->info.arv_dis);
                 printf("\nInforme o codigo da disciplina: ");
                 scanf(" %[^\n]", busca);
+                while(getchar() != '\n');
                 
                 noDis = buscar_disciplina(noCurso->info.arv_dis, busca); //Buscando a disciplina escolhido
                 if(noDis != NULL)
@@ -188,6 +190,7 @@ int main ()
                     imprimir_alunos_disciplina(lAluno, noCurso->info.arv_dis);
                     printf("Informe a matricula do aluno: ");
                     scanf(" %[^\n]", busca);
+                    while(getchar() != '\n');
 
                     noAluno = buscar_aluno(lAluno, busca); //Buscando a aluno escolhido
                     if(noAluno != NULL)
@@ -201,7 +204,7 @@ int main ()
                             {
                                 noNota = cadastrar_notas(&noNota, noMatri); //Mandando o nó nulo e recebendo ele preenchido 
 
-                                verificacao = inserir_arv_notas(&lAluno->info.arv_notas, noNota); //Inserindo na árvore o nó preenchido
+                                verificacao = inserir_arv_notas(&noAluno->info.arv_notas, noNota); //Inserindo na árvore o nó preenchido
                                 if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
                                 else printf("\nErro ao cadastrar nota!\n");
                                 
