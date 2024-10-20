@@ -117,17 +117,17 @@ l_aluno *alocar_no_aluno()
 //------------------------------------------------------------------------------
 
 //Preencher as structs
-arv_notas *cadastrar_notas(arv_notas *notas, arv_matri matricula)
+arv_notas *cadastrar_notas(arv_notas **notas, arv_matri *matricula)
 {
     printf("Informe a nota do aluno: ");
-    scanf(" %f", &(*notas).info.nota_final);
+    scanf(" %f", &(*notas)->info.nota_final);
 
     printf("Informe o periodo cursado (Ex: 2024.2): ");
-    scanf(" %[^\n]", (*notas).info.semestre);
+    scanf(" %[^\n]", (*notas)->info.semestre);
     
-    strcpy((*notas).info.cod_dis, matricula.info.cod_dis);
+    strcpy((*notas)->info.cod_dis, matricula->info.cod_dis);
 
-    return notas;
+    return *notas;
 }
 arv_matri *cadastrar_matricula(arv_matri **no, arv_dis *disciplina)
 {
@@ -199,10 +199,10 @@ int inserir_arv_notas(arv_notas **notas, arv_notas *no)
     else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) > 0)
         inseriu = inserir_arv_notas(&((*notas)->dir), no);
 
-        else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) < 0)
-            inseriu = inserir_arv_notas(&((*notas)->esq), no);
-    
-            else inseriu = 0;
+    else if(strcmp(no->info.cod_dis, (*notas)->info.cod_dis) < 0)
+        inseriu = inserir_arv_notas(&((*notas)->esq), no);
+
+    else inseriu = 0;
 
     return inseriu;
 }
@@ -452,11 +452,13 @@ void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
     {
         buscar_disciplina_matricula(no->esq, disciplina);
 
-        if(strcmp(disciplina->info.cod_dis, no->info.cod_dis) == 0)
-            imprimir_disciplina(disciplina);
+       arv_dis *dis_encontrada;
+       dis_encontrada = buscar_disciplina(disciplina, no->info.cod_dis);
 
+        if (dis_encontrada != NULL)
+            imprimir_disciplina(dis_encontrada);
+    
         buscar_disciplina_matricula(no->dir, disciplina);
-
     }
 }
 void buscar_notas_periodo(arv_notas *no, char *busca)
