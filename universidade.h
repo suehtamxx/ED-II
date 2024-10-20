@@ -129,6 +129,7 @@ l_aluno *buscar_aluno(l_aluno *aluno, char *busca);
 void buscar_disciplina_periodo(arv_dis *no, int *busca);
 void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina);
 void buscar_notas_periodo(arv_notas *no, char *busca);
+void buscar_notas_disciplina(arv_notas *no, arv_dis *disciplina);
 
 //Verificar se o nó é folha
 int e_folha_matricula(arv_matri *no);
