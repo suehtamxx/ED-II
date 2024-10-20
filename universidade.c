@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//oi
-//oi
+
 // 0 é erro, 1 é que deu certo
 
 //Criar árvores e lista
@@ -343,7 +342,6 @@ void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina)
 {
     if(no != NULL)
     {
-        
         if(no->info.arv_matricula != NULL && strcmp(no->info.arv_matricula->info.cod_dis, disciplina->info.cod_dis) == 0)
             imprimir_aluno(no);
         
@@ -360,7 +358,6 @@ void imprimir_alunos_curso(arv_curso *curso, l_aluno *no)
         imprimir_alunos_curso(curso, no->prox);
     }
 }
-
 //------------------------------------------------------------------------------
 
 //Buscar nós nas árvores e lista
@@ -464,10 +461,28 @@ void buscar_notas_periodo(arv_notas *no, char *busca)
     if(no != NULL)
     {
         buscar_notas_periodo(no->esq, busca);
+        
         if(strcmp(busca, no->info.semestre) == 0)
             imprimir_nota(no);
 
         buscar_notas_periodo(no->dir, busca);
+    }
+}
+void buscar_notas_disciplina(arv_notas *no, arv_dis *disciplina)
+{
+    if(no != NULL)
+    {
+        buscar_notas_disciplina(no->esq, disciplina);
+
+        if(strcmp(no->info.cod_dis, disciplina->info.cod_dis) == 0)
+        {
+            printf("Nota: %.2f | ", no->info.nota_final);
+            printf("Periodo da disciplina no curso: %d | ", disciplina->info.periodo);
+            printf("Carga Horaria: %d ", disciplina->info.carga_hr);
+            printf("\n");
+        }
+
+        buscar_notas_disciplina(no->dir, disciplina);
     }
 }
 //------------------------------------------------------------------------------
