@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 //oi
+//oi
 // 0 é erro, 1 é que deu certo
 
 //Criar árvores e lista
