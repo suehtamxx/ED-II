@@ -115,7 +115,7 @@ void imprimir_aluno(l_aluno *no);
 //Imprimir as árvores e lista (in-ordem)
 void imprimir_arv_disciplina(arv_dis *no);
 void imprimir_arv_curso(arv_curso *no);
-//void imprimir_lista_aluno(l_aluno *no);
+void imprimir_lista_aluno(l_aluno *no);
 
 void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina);
 void imprimir_alunos_curso(arv_curso *curso, l_aluno *no);
@@ -130,6 +130,13 @@ void buscar_disciplina_periodo(arv_dis *no, int *busca);
 void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina);
 void buscar_notas_periodo(arv_notas *no, char *busca);
 void buscar_notas_disciplina(arv_notas *no, arv_dis *disciplina);
+int buscar_alunos_matriculados(l_aluno *no, char *disciplina);
+
+//Histórico
+void vetor_disciplinas(arv_dis *no, char disciplinas[][20], int periodos[], int *contador);
+void preencher_notas(arv_notas *no, char disciplinas[][20], float notas[], int contador);
+void imprimir_disciplina_nota(char *disciplina, float nota);
+void historico_aluno(l_aluno *aluno, arv_curso *curso);
 
 //Verificar se o nó é folha
 int e_folha_matricula(arv_matri *no);
@@ -143,11 +150,9 @@ arv_dis *so_um_filho_disciplina(arv_dis *no);
 arv_matri *menor_filho_matricula(arv_matri *no);
 arv_dis *menor_filho_disciplina(arv_dis *no);
 
-int buscar_alunos_matriculados(l_aluno *no, char *disciplina);
-
 //Remover nós nas árvores e lista
 int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no);
-//int remover_disciplina(arv_dis **raiz, arv_dis *no);
+int remover_disciplina(arv_dis **raiz, arv_dis *no);
 int remover_disciplina_curso(arv_dis **raiz, arv_dis *disciplina, l_aluno *aluno);
 
 //Liberar memória
