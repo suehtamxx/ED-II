@@ -133,18 +133,22 @@ void buscar_notas_disciplina(arv_notas *no, arv_dis *disciplina);
 
 //Verificar se o nó é folha
 int e_folha_matricula(arv_matri *no);
+int e_folha_disciplina(arv_dis *no);
 
 //Verificar se o nó tem um filho
 arv_matri *so_um_filho_matricula(arv_matri *no);
+arv_dis *so_um_filho_disciplina(arv_dis *no);
 
 //Buscar o menor filho
 arv_matri *menor_filho_matricula(arv_matri *no);
+arv_dis *menor_filho_disciplina(arv_dis *no);
 
+int buscar_alunos_matriculados(l_aluno *no, char *disciplina);
 
 //Remover nós nas árvores e lista
 int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no);
 //int remover_disciplina(arv_dis **raiz, arv_dis *no);
-
+int remover_disciplina_curso(arv_dis **raiz, arv_dis *disciplina, l_aluno *aluno);
 
 //Liberar memória
 void liberar_arv_notas(arv_notas *raiz);
