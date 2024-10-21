@@ -121,7 +121,7 @@ arv_notas *cadastrar_notas(arv_notas **notas, arv_matri *matricula)
 {
     strcpy((*notas)->info.cod_dis, matricula->info.cod_dis);
 
-    printf("Informe o periodo cursado (Ex: 2024.2): ");
+    printf("\nInforme o periodo cursado (Ex: 2024.2): ");
     scanf(" %[^\n]", (*notas)->info.semestre);
 
     printf("Informe a nota do aluno: ");
@@ -139,7 +139,7 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
 {
     int i = 0, ch = 0, qtd = curso->info.qtd_periodos;
 
-    printf("Informe o nome da disciplina: ");
+    printf("\nInforme o nome da disciplina: ");
     scanf(" %[^\n]", (*no)->info.nome);
 
     printf("Informe o codigo da disciplina: ");
@@ -163,7 +163,7 @@ arv_dis *cadastrar_disciplina(arv_dis **no, arv_curso *curso)
 }
 arv_curso *cadastrar_curso(arv_curso **no)
 {
-    printf("Informe o nome do curso: ");
+    printf("\nInforme o nome do curso: ");
     scanf(" %[^\n]", (*no)->info.nome);
     
     printf("Informe o codigo do curso: ");
@@ -176,11 +176,11 @@ arv_curso *cadastrar_curso(arv_curso **no)
 }
 l_aluno *cadastrar_aluno(l_aluno **no, arv_curso *curso)
 {
-    printf("Informe o nome do aluno:\n");
+    printf("\nInforme o nome do aluno: ");
     scanf(" %[^\n]", (*no)->info.nome);
 
-    printf("Informe a matricula:\n");
-    scanf(" %s", (*no)->info.matricula);
+    printf("Informe a matricula: ");
+    scanf(" %[^\n]", (*no)->info.matricula);
 
     strcpy((*no)->info.cod_curso, curso->info.cod_curso);
 
@@ -288,17 +288,16 @@ int inserir_lista_aluno(l_aluno **aluno, l_aluno *no)
 //Imprimir o nó da árvore e lista
 void imprimir_nota(arv_notas *no)
 {
-    printf("Semestre: %s | ", no->info.semestre);
-    printf("Nota Final: %f |", no->info.nota_final);
+    printf("\nSemestre: %s | ", no->info.semestre);
+    printf("Nota Final: %.1f |", no->info.nota_final);
     printf("Codigo da Disciplina: %s |", no->info.cod_dis);
-    printf("\n");
 }
 //void imprimir_matricula(arv_matri *no);
 void imprimir_disciplina(arv_dis *no)
 {
     printf("Codigo: %s | ", no->info.cod_dis);
     printf("Nome: %s | ", no->info.nome);
-    printf("Periodo da disciplina no curso: %d | ", no->info.periodo);
+    printf("Periodo: %d | ", no->info.periodo);
     printf("Carga Horaria: %d ", no->info.carga_hr);
     printf("\n");
 }
@@ -336,6 +335,14 @@ void imprimir_arv_curso(arv_curso *raiz)
         imprimir_curso(raiz);
         imprimir_arv_curso(raiz->dir);
     }   
+}
+void imprimir_lista_aluno(l_aluno *no)
+{
+    if (no != NULL)
+    {
+        imprimir_aluno(no);
+        imprimir_lista_aluno(no->prox);
+    } 
 }
 
 void imprimir_alunos_disciplina(l_aluno *no, arv_dis *disciplina)
@@ -478,16 +485,108 @@ void buscar_notas_disciplina(arv_notas *no, arv_dis *disciplina)
 
         if(strcmp(no->info.cod_dis, disciplina->info.cod_dis) == 0)
         {
-            printf("Nota: %.2f | ", no->info.nota_final);
-            printf("Periodo da disciplina no curso: %d | ", disciplina->info.periodo);
+            printf("\nNota: %.1f | ", no->info.nota_final);
+            printf("Periodo: %d | ", disciplina->info.periodo);
             printf("Carga Horaria: %d ", disciplina->info.carga_hr);
-            printf("\n");
         }
 
         buscar_notas_disciplina(no->dir, disciplina);
     }
 }
+int buscar_alunos_matriculados(l_aluno *no, char *disciplina)
+{
+    int encontrou = 0;
+    l_aluno *atual;
+    atual = no;
+
+    while(atual != NULL)
+    {
+        if(atual->info.arv_matricula != NULL)
+        {
+            if(buscar_matricula(atual->info.arv_matricula, disciplina) != NULL)
+                encontrou = 1;
+
+        }
+
+        atual = atual->prox;
+    }
+
+    return encontrou;
+} 
 //------------------------------------------------------------------------------
+
+//Histórico
+void vetor_disciplinas(arv_dis *no, char disciplinas[][20], int periodos[], int *contador)
+{
+    if (no != NULL) 
+    {
+        vetor_disciplinas(no->esq, disciplinas, periodos, contador);
+
+        strcpy(disciplinas[*contador], no->info.cod_dis);
+        periodos[*contador] = no->info.periodo;
+        (*contador)++;
+
+        vetor_disciplinas(no->dir, disciplinas, periodos, contador);
+    }
+}
+void preencher_notas(arv_notas *no, char disciplinas[][20], float notas[], int contador)
+{
+    if (no != NULL) 
+    {
+        preencher_notas(no->esq, disciplinas, notas, contador);
+
+        for (int i = 0; i < contador; i++) 
+        {
+            if (strcmp(no->info.cod_dis, disciplinas[i]) == 0) 
+            {
+                notas[i] = no->info.nota_final;
+            }
+        }
+
+        preencher_notas(no->dir, disciplinas, notas, contador);
+    }
+}
+void imprimir_disciplina_nota(char *disciplina, float nota)
+{
+    printf("\nDisciplina: %s | Nota: %.2f", disciplina, nota);
+}
+void historico_aluno(l_aluno *aluno, arv_curso *curso)
+{
+    arv_curso *no_curso;
+    no_curso = buscar_curso(curso, aluno->info.cod_curso);
+
+    if (no_curso != NULL)
+    {    
+        imprimir_curso(no_curso);
+
+        char disciplinas[100][20]; 
+        int periodos[100]; 
+        float notas[100]; 
+        int contador = 0;
+
+        vetor_disciplinas(no_curso->info.arv_dis, disciplinas, periodos, &contador);
+
+        // Inicializa o array de notas com um valor padrão (-1.0)
+        for (int i = 0; i < contador; i++) 
+        {
+            notas[i] = -1.0;
+        }
+
+        // Preenche o array de notas sem usar break
+        preencher_notas(aluno->info.arv_notas, disciplinas, notas, contador);
+
+        // Exibir histórico organizado por período
+        for (int p = 1; p <= 12; p++) 
+        { 
+            for (int i = 0; i < contador; i++) 
+            {
+                if (periodos[i] == p && notas[i] != -1.0) 
+                    imprimir_disciplina_nota(disciplinas[i], notas[i]);
+            }
+        }
+    }
+}
+
 
 //Verificar se o nó é folha
 int e_folha_matricula(arv_matri *no)
@@ -499,7 +598,6 @@ int e_folha_matricula(arv_matri *no)
         
     return verifica;
 }
-
 int e_folha_disciplina(arv_dis *no)
 {
     int verifica = 0;
@@ -523,7 +621,6 @@ arv_matri *so_um_filho_matricula(arv_matri *no)
     
     return aux;
 }
-
 arv_dis *so_um_filho_disciplina(arv_dis *no)
 {
     arv_dis *aux;
@@ -545,7 +642,6 @@ arv_matri *menor_filho_matricula(arv_matri *no)
     
     return no;
 }
-
 arv_dis *menor_filho_disciplina(arv_dis *no)
 {
     while (no != NULL && no->esq != NULL)
@@ -598,7 +694,6 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
     
     return removeu;
 }
-
 int remover_disciplina(arv_dis **raiz, arv_dis *no)
 {
     int removeu = 1, verificacao;
@@ -641,28 +736,6 @@ int remover_disciplina(arv_dis **raiz, arv_dis *no)
     
     return removeu;
 }
-
- int buscar_alunos_matriculados(l_aluno *no, char *disciplina)
- {
-    int encontrou = 0;
-    l_aluno *atual;
-    atual = no;
-
-    while(atual != NULL)
-    {
-        if(atual->info.arv_matricula != NULL)
-        {
-            if(buscar_matricula(atual->info.arv_matricula, disciplina) != NULL)
-                encontrou = 1;
-
-        }
-
-        atual = atual->prox;
-    }
-
-    return encontrou;
-} 
-
 int remover_disciplina_curso(arv_dis **raiz, arv_dis *disciplina, l_aluno *aluno)
 {
     int removeu = 1, verificacao;
@@ -676,58 +749,6 @@ int remover_disciplina_curso(arv_dis **raiz, arv_dis *disciplina, l_aluno *aluno
     return removeu;
 }
 //------------------------------------------------------------------------------
-
-
-
-// int remover_disciplina(arv_dis **raiz, arv_dis *no)
-// {
-//     int removeu = 1, verificacao;
-//     arv_dis *aux;
-//     arv_dis *end_filho, *end_menor_filho;
-
-//     if((*raiz) != NULL)
-//     {
-//         if((*raiz)->info.cod_dis == no->info.cod_dis)
-//         {
-//             verificacao = e_folha(*raiz);
-            
-//             if(verificacao == 1)
-//             {
-//                 aux = *raiz;
-//                 *raiz = NULL;
-//                 free(aux);
-//             }
-//             else 
-//                 if ((end_filho = so_um_filho(*raiz)) != NULL)
-//                 {
-//                     aux = *raiz;
-//                     *raiz = NULL;
-//                     free(aux);
-//                 }
-//                 else
-//                 {
-//                     end_menor_filho = menor_filho((*raiz)->dir);
-//                     aux = *raiz;
-//                     (*raiz)->info = end_menor_filho->info;
-//                     removeu = remover_disciplina(&(*raiz)->dir, end_menor_filho);
-//                 } 
-//                 else 
-//                         if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) < 0)
-//                             removeu = remover_disciplina(&((*disciplina)->esq), no);
-                    
-//                         else 
-//                             if(strcmp(no->info.cod_dis, (*disciplina)->info.cod_dis) > 0)
-//                                 removeu = remover_disciplina(&((*disciplina)->dir), no);
-                
-//         }
-    
-//     }
-//     else inseriu = 0;
-    
-//     return inseriu;
-    
-// }
-
 //Liberar memória
 void liberar_arv_notas(arv_notas *raiz) 
 {
