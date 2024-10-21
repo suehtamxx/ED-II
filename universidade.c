@@ -449,11 +449,13 @@ void buscar_disciplina_matricula(arv_matri *no, arv_dis *disciplina)
     {
         buscar_disciplina_matricula(no->esq, disciplina);
 
-        if(strcmp(disciplina->info.cod_dis, no->info.cod_dis) == 0)
-            imprimir_disciplina(disciplina);
+       arv_dis *dis_encontrada;
+       dis_encontrada = buscar_disciplina(disciplina, no->info.cod_dis);
 
+        if (dis_encontrada != NULL)
+            imprimir_disciplina(dis_encontrada);
+    
         buscar_disciplina_matricula(no->dir, disciplina);
-
     }
 }
 void buscar_notas_periodo(arv_notas *no, char *busca)
@@ -497,6 +499,16 @@ int e_folha_matricula(arv_matri *no)
         
     return verifica;
 }
+
+int e_folha_disciplina(arv_dis *no)
+{
+    int verifica = 0;
+
+    if (no->dir == NULL && no->esq == NULL)
+        verifica = 1;
+        
+    return verifica;
+}
 //------------------------------------------------------------------------------
 
 //Verificar se o nó tem um filho
@@ -511,10 +523,30 @@ arv_matri *so_um_filho_matricula(arv_matri *no)
     
     return aux;
 }
+
+arv_dis *so_um_filho_disciplina(arv_dis *no)
+{
+    arv_dis *aux;
+
+    if(no->dir == NULL && no->esq != NULL)
+        aux = no->esq;
+    else if(no->dir != NULL && no->esq == NULL)
+        aux = no->dir;
+    
+    return aux;
+}
 //------------------------------------------------------------------------------
 
 //Buscar o menor filho
 arv_matri *menor_filho_matricula(arv_matri *no)
+{
+    while (no != NULL && no->esq != NULL)
+        no = no->esq;
+    
+    return no;
+}
+
+arv_dis *menor_filho_disciplina(arv_dis *no)
 {
     while (no != NULL && no->esq != NULL)
         no = no->esq;
@@ -566,8 +598,85 @@ int remover_disciplina_matricula(arv_matri **raiz, arv_dis *no)
     
     return removeu;
 }
+
+int remover_disciplina(arv_dis **raiz, arv_dis *no)
+{
+    int removeu = 1, verificacao;
+    arv_dis *aux;
+    arv_dis *end_filho, *end_menor_filho;
+
+    if((*raiz) != NULL)
+    {
+        if(strcmp((*raiz)->info.cod_dis, no->info.cod_dis) == 0)
+        {
+            verificacao = e_folha_disciplina(*raiz);
+            
+            if(verificacao == 1)
+            {
+                aux = *raiz;
+                *raiz = NULL;
+                free(aux);
+            }
+            else if ((end_filho = so_um_filho_disciplina(*raiz)) != NULL)
+            {
+                aux = *raiz;
+                *raiz = end_filho;
+                free(aux);
+            }
+                else
+                {
+                    end_menor_filho = menor_filho_disciplina((*raiz)->dir);
+                    aux = *raiz;
+                    (*raiz)->info = end_menor_filho->info;
+                    removeu = remover_disciplina(&(*raiz)->dir, no);
+                } 
+        }
+        else if(strcmp(no->info.cod_dis, (*raiz)->info.cod_dis) < 0)
+                    removeu = remover_disciplina(&((*raiz)->esq), no);        
+            else 
+                removeu = remover_disciplina(&((*raiz)->dir), no);
+                
+    }
+    else removeu = 0;
+    
+    return removeu;
+}
+
+ int buscar_alunos_matriculados(l_aluno *no, char *disciplina)
+ {
+    int encontrou = 0;
+    l_aluno *atual;
+    atual = no;
+
+    while(atual != NULL)
+    {
+        if(atual->info.arv_matricula != NULL)
+        {
+            if(buscar_matricula(atual->info.arv_matricula, disciplina) != NULL)
+                encontrou = 1;
+
+        }
+
+        atual = atual->prox;
+    }
+
+    return encontrou;
+} 
+
+int remover_disciplina_curso(arv_dis **raiz, arv_dis *disciplina, l_aluno *aluno)
+{
+    int removeu = 1, verificacao;
+
+    verificacao = buscar_alunos_matriculados(aluno, disciplina->info.cod_dis);
+    if(verificacao == 0)
+        removeu = remover_disciplina(raiz, disciplina);
+    
+        else removeu = 0;
+
+    return removeu;
+}
 //------------------------------------------------------------------------------
-   
+
 
 
 // int remover_disciplina(arv_dis **raiz, arv_dis *no)
