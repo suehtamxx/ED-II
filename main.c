@@ -38,12 +38,13 @@ int main ()
         printf("\n6. Imprimir Curso");
         printf("\n7. Imprimir Disciplina");
         printf("\n8. Imprimir Aluno");
-        printf("\n9. Imprimir Disciplina Por Periodo");
-        printf("\n10. Imprimir Disciplinas de Aluno");
+        printf("\n9. Imprimir Disciplinas Por Periodo");
+        printf("\n10. Imprimir Disciplinas Por Aluno");
         printf("\n11. Imprimir Notas de um Periodo de Aluno");
         printf("\n12. Imprimir Notas de uma Disciplina de Aluno");
-        printf("\n13. Remover Disciplina Sem Aluno");
+        printf("\n13. Remover Disciplina do Curso");
         printf("\n14. Trancar Disciplina");
+        printf("\n15. Imprimir Historico de Aluno");
         printf("\n0. Sair\n");
 
         printf("\nEscolha uma opcao: ");
@@ -192,7 +193,7 @@ int main ()
                 {
                     printf("\n- Imprimindo alunos do curso:\n");
                     imprimir_alunos_disciplina(lAluno, noDis);
-                    printf("Informe a matricula do aluno: ");
+                    printf("\nInforme a matricula do aluno: ");
                     scanf(" %[^\n]", busca);
                     while(getchar() != '\n');
 
@@ -209,18 +210,18 @@ int main ()
                                 noNota = cadastrar_notas(&noNota, noMatri); //Mandando o nó nulo e recebendo ele preenchido 
 
                                 verificacao = inserir_arv_notas(&noAluno->info.arv_notas, noNota); //Inserindo na árvore o nó preenchido
-                                if(verificacao == 1) printf("\nNota cadastrada com sucesso\n!");
+                                if(verificacao == 1) printf("\nNota cadastrada com sucesso!\n");
                                 else printf("\nErro ao cadastrar nota!\n");
                                 
                                 verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis); //Removendo o nó da árvore
                                 if(verificacao == 1) printf("\nDisciplina removida com sucesso!\n");
-                                else printf("Erro ao remover disciplina!\n");
+                                else printf("\nErro ao remover disciplina!\n");
 
                             }
                         }
                         else printf("\nMatricula nao encontrada!\n");
                     }
-                    else printf("\nAluno nao encontrado\n!");
+                    else printf("\nAluno nao encontrado!\n");
                 }
                 else printf("\nDisciplina nao encontrada!\n");
             }
@@ -293,7 +294,7 @@ int main ()
             break;
 
         case 10:
-            printf("\n===== IMPRIMINDO DISCIPLINAS DO ALUNO =====\n");
+            printf("\n===== IMPRIMINDO DISCIPLINAS P/ ALUNO =====\n");
             
             printf("\n- Imprimindo cursos disponiveis:\n");
             imprimir_arv_curso(arvCurso);
@@ -327,7 +328,7 @@ int main ()
             noCurso = buscar_curso(arvCurso, busca); //Buscando o curso escolhido
             if(noCurso != NULL)
             {
-                printf("\n- Imprimindo alunos do curso %s:", noCurso->info.nome);
+                printf("\n- Imprimindo alunos do curso:\n");
                 imprimir_alunos_curso(noCurso, lAluno);
                 printf("\nInforme a matricula do aluno: ");
                 scanf(" %[^\n]", busca);
@@ -371,7 +372,7 @@ int main ()
                 {
                     printf("\n- Imprimindo alunos do curso:\n");
                     imprimir_alunos_curso(noCurso, lAluno);
-                    printf("Informe a matricula do aluno: ");
+                    printf("\nInforme a matricula do aluno: ");
                     scanf(" %[^\n]", busca);
                     while(getchar() != '\n');
 
@@ -387,16 +388,20 @@ int main ()
             
             break;
         case 13:
+            printf("\n===== REMOVENDO DISCIPLINA DO CURSO =====\n");
+
+            printf("\n- Imprimindo cursos disponiveis:\n");
             imprimir_arv_curso(arvCurso);
-            printf("Informe o codigo do curso: ");
+            printf("\nInforme o codigo do curso: ");
             scanf(" %[^\n]", busca);
 
             noCurso = buscar_curso(arvCurso, busca);
 
             if(noCurso != NULL)
             {
+                printf("\n- Imprimindo alunos do curso:\n");
                 imprimir_arv_disciplina(noCurso->info.arv_dis);
-                printf("Informe o codigo da disciplina que deseja excluir: ");
+                printf("\nInforme o codigo da disciplina que deseja excluir: ");
                 scanf(" %[^\n]", busca);
 
                 if(buscar_alunos_matriculados(lAluno, busca) == 0)
@@ -405,38 +410,43 @@ int main ()
                     if(noDis != NULL)
                     {
                         remover_disciplina_curso(&(noCurso->info.arv_dis), noDis, lAluno);
-                        printf("Disciplina Removida!\n");
-                    }else printf("Erro ao remover disciplina!\n");
+                        printf("\nDisciplina Removida!\n");
+                    }
+                    else printf("\nErro ao remover disciplina!\n");
+                }
+                else printf("\nAinda ha alunos matriculados!\n");
+            }
+            else printf("\nCurso nao encontrado!\n");
 
-                }else printf("Ainda ha alunos matriculados!\n");
-    
-            }else printf("Curso nao encontrado!\n");
             break;
         case 14:
             printf("\n===== TRANCAR DISCIPLINA =====\n");
+
+            printf("\n- Imprimindo cursos disponiveis:\n");
             imprimir_arv_curso(arvCurso);
-            printf("Informe o codigo do curso: ");
+            printf("\nInforme o codigo do curso: ");
             scanf(" %[^\n]", busca);
 
             noCurso = buscar_curso(arvCurso, busca);
 
             if(noCurso != NULL)
             {
+                printf("\n- Imprimindo disciplinas disponiveis:\n");
                 imprimir_arv_disciplina(noCurso->info.arv_dis);
-                printf("Informe o codigo da disciplina que deseja excluir: ");
+                printf("\nInforme o codigo da disciplina que deseja excluir: ");
                 scanf(" %[^\n]", busca);
                 while(getchar() != '\n');
 
                 noDis = buscar_disciplina(noCurso->info.arv_dis, busca);
                 if(noDis != NULL)
                 {
+                    printf("\n- Imprimindo os alunos da disciplina:\n");
                     imprimir_alunos_disciplina(lAluno, noDis);
-                    printf("Informe a matricula do aluno: ");
+                    printf("\nInforme a matricula do aluno: ");
                     scanf(" %[^\n]", busca);
                     while(getchar() != '\n');
 
                     noAluno = buscar_aluno(lAluno, busca);
-
                     if(noAluno != NULL)
                     {
                         noMatri = buscar_matricula(noAluno->info.arv_matricula, noDis->info.cod_dis);
@@ -444,13 +454,34 @@ int main ()
                         if(noMatri != NULL)
                         {
                             verificacao = remover_disciplina_matricula(&noAluno->info.arv_matricula, noDis);
-                            if(verificacao == 1)printf("Disciplina trancada!");
-                            else printf("Erro ao remover disciplina!");
+                            if(verificacao == 1)printf("\nDisciplina trancada!");
+                            else printf("\nErro ao remover disciplina!");
                         }
+                        else printf("\nMatricula nao encontrada!\n");
                     }
+                    else printf("\nAluno nao encontrado!\n");
                 }
+                else printf("\nDisiciplina nao encontrada!\n");
             }
+            else printf("\nCurso nao encontrado!\n");
+
             break;
+
+            case 15:
+            printf("\n===== IMPRIMIR HISTORICO =====\n");
+
+            printf("\n- Imprimindo os alunos:\n");
+            imprimir_lista_aluno(lAluno);
+            printf("\nInforma a matricula do aluno: ");
+            scanf(" %[^\n]", busca);
+
+            noAluno = buscar_aluno(lAluno, busca);
+            if (noAluno != NULL)
+                historico_aluno(noAluno, arvCurso);
+
+            else printf("\nAluno nao encontrado!\n");
+            break;
+            
         case 0:
             printf("Saindo...\n");
             break;
