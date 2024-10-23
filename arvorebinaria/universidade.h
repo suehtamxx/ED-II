@@ -5,7 +5,7 @@
 //Notas
 typedef struct info_notas
 {
-    char cod_dis[3];
+    char cod_dis[4];
     char semestre[10];
     float nota_final;
 }Notas;
@@ -19,7 +19,7 @@ typedef struct arvore_notas
 //Matriculas
 typedef struct info_matricula
 {
-    char cod_dis[3];
+    char cod_dis[4];
 }Matricula;
 
 typedef struct arvore_matricula
@@ -32,7 +32,7 @@ typedef struct arvore_matricula
 typedef struct info_disciplina
 {
     char nome[100];
-    char cod_dis[3];
+    char cod_dis[4];
     int periodo;
     int carga_hr;
 }Disciplina;
@@ -47,7 +47,7 @@ typedef struct arvore_disciplina
 typedef struct info_curso
 {
     char nome[40];
-    char cod_curso[5];
+    char cod_curso[10];
     int qtd_periodos;
     arv_dis *arv_dis;
 }Curso;
@@ -63,7 +63,7 @@ typedef struct info_aluno
 {
     char nome[50];
     char matricula[10];
-    char cod_curso[5];
+    char cod_curso[10];
     arv_matri *arv_matricula;
     arv_notas *arv_notas;
 }Aluno;
