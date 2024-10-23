@@ -57,7 +57,7 @@ void preencher_cursos_aleatorio(arv_curso **cursos) {
         int idx = indices[i];
 
         snprintf(novo_curso->info.nome, sizeof(novo_curso->info.nome), "Curso %d", idx);
-        snprintf(novo_curso->info.cod_curso, sizeof(novo_curso->info.cod_curso), "C%04d", idx);
+        snprintf(novo_curso->info.cod_curso, sizeof(novo_curso->info.cod_curso), "C%d", idx);
         novo_curso->info.qtd_periodos = (rand() % 8) + 1; // Periodos entre 1 e 8
 
         // Insere o curso na árvore
@@ -139,9 +139,9 @@ void preencher_aluno(arv_curso *cursos, l_aluno **alunos)
 void buscar_nota(arv_curso *cursos, l_aluno *alunos)
 {
             //1° cod curso, 2° cod disciplina, 3° matricula aluno
-            int c = 100;
-            int d = 3;
-            int a = 100;
+            int c = 41111;
+            int d = 2;
+            int a = 25132;
             char buscaC[10];
             snprintf(buscaC, sizeof(buscaC), "C%d", c);
             char buscaD[10];
@@ -196,9 +196,13 @@ int main(){
     buscar_nota(cursos, alunos);
     clock_t fim_nota = clock();
     double tempo_busca = ((double) (fim_nota - inicio_nota)) / CLOCKS_PER_SEC;
-    double tempo_milisegundos = (tempo_busca * 1000);
-    double tempo_nanosegundos = (tempo_milisegundos * 1000);
-    printf("Tempo de busca: %f\n", tempo_nanosegundos);
+    double tempo_milisegundos = tempo_busca * 1000;
+    double tempo_microsegundos = tempo_busca * 1000000;
+    double tempo_nanosegundos = tempo_busca * 1000000000;
+    printf("Tempo de busca em segundos: %f\n", tempo_busca);
+    printf("Tempo de busca em milisegundos: %f\n", tempo_milisegundos);
+    printf("Tempo de busca em microsegundos: %f\n", tempo_microsegundos);
+    printf("Tempo de busca em nanosegundos: %f\n", tempo_nanosegundos);
 
     //     i++;
     // }
