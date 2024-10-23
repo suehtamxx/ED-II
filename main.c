@@ -2,8 +2,7 @@
 #include "universidade.c"
 #include <stdio.h>
 #include <stdlib.h>
-//oi
-//oi
+
 int main ()
 {
     int op = 0, verificacao;
